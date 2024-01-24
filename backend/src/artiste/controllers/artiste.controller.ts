@@ -1,8 +1,8 @@
-import { ArtisteService } from './artiste.service';
+import { ArtisteService } from '../artiste.service';
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { Artiste } from './schemas/artiste.schema';
-import { CreateArtisteDto } from './dto/create-artiste.dto';
-import { UpdateArtisteDto } from './dto/update-artiste.dto';
+import { Artiste } from '../schemas/artiste.schema';
+import { CreateArtisteDto } from '../dto/create-artiste.dto';
+import { UpdateArtisteDto } from '../dto/update-artiste.dto';
 
 @Controller('artiste')
 export class ArtisteController {

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ArtisteController } from './artiste.controller';
+import { ArtisteController } from './controllers/artiste.controller';
 import { ArtisteService } from './artiste.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ArtistShema } from './schemas/artiste.schema';
