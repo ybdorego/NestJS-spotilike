@@ -5,7 +5,6 @@ import { ArtisteModule } from './artiste/artiste.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AlbumModule } from './album/album.module';
-import { MorceauModule } from './dry-run/morceau/morceau.module';
 import { MorceauModule } from './morceau/morceau.module';
 import { GenreModule } from './genre/genre.module';
 import { UtilisateurModule } from './utilisateur/utilisateur.module';
