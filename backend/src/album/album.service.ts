@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Album } from './schemas/album.schema';
 import mongoose from 'mongoose';
@@ -25,8 +25,15 @@ export class AlbumService {
 
         // trouvé l'album par son id
         async findById(id: string): Promise<Album>{
-            const album = await this.albumModel.findById(id)
 
+            const isvalid = mongoose.isValidObjectId(id)
+
+            if(!isvalid){
+                throw new BadRequestException('entrez un id valide.')
+            }
+
+            const album = await this.albumModel.findById(id)
+            
             if(!album){
                     throw new NotFoundException('Album non trouvée')
             }

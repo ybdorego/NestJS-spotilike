@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Genre } from './schemas/genre.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
@@ -25,6 +25,13 @@ export class GenreService {
 
         // trouvé le genre par son id
         async findById(id: string): Promise<Genre>{
+
+            const isvalid = mongoose.isValidObjectId(id)
+
+            if(!isvalid){
+                    throw new BadRequestException('entrez un ID correct.')
+            }
+
             const genre = await this.genreModel.findById(id)
 
             if(!genre){

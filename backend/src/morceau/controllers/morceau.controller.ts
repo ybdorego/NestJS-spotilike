@@ -7,12 +7,12 @@ import { Morceau } from '../schemas/morceau.schema';
 @Controller('morceau')
 export class MorceauController {
 
-    constructor(private morceauservice: MorceauService) {
+    constructor(private morceauService: MorceauService) {
 	}
 
     @Get()
     async getallMorceau(): Promise<Morceau[]> {
-        return this.morceauservice.findAll();
+        return this.morceauService.findAll();
     }
 
 
@@ -23,7 +23,7 @@ export class MorceauController {
         @Body()
         morceau: CreateMorceauDto
     ): Promise<Morceau> {
-        return this.morceauservice.create(morceau)
+        return this.morceauService.create(morceau)
     }
 
     // touvée un morceau par son id 
@@ -32,7 +32,7 @@ export class MorceauController {
         @Param('id') 
         id: string
     ): Promise<Morceau> {
-        return this.morceauservice.findById(id);
+        return this.morceauService.findById(id);
     }
 
     // mise a jours d'un morceau par son id 
@@ -43,6 +43,6 @@ export class MorceauController {
         @Body()
         morceau: UpdateMorceauDto
     ): Promise<Morceau> {
-        return this.morceauservice.updateById(id, morceau)
+        return this.morceauService.updateById(id, morceau)
     }
 }

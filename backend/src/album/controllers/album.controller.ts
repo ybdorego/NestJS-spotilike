@@ -1,5 +1,5 @@
 import { AlbumService } from './../album.service';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Album } from '../schemas/album.schema';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
@@ -18,10 +18,11 @@ export class AlbumController {
 
     // creation de l'album
     @Post()
+    @UsePipes(new ValidationPipe)
     async createAlbum(
         @Body()
         album: CreateAlbumDto
-    ): Promise<Album> {
+    ): Promise<Album> { 
         return this.albumservice.create(album)
     }
 

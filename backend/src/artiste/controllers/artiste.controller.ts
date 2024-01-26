@@ -15,6 +15,7 @@ export class ArtisteController {
         return this.artisteService.findAll();
     }
     
+    // creation d'un artiste
     @Post()
     async createArtist(
         @Body()
@@ -24,6 +25,7 @@ export class ArtisteController {
     }
 
 
+    // touvée l'artiste par son id 
     @Get(':id')
     async getArtisteById(
         @Param('id') 
@@ -32,7 +34,7 @@ export class ArtisteController {
         return this.artisteService.findById(id);
     }
 
-
+    // mise a jours d'un artiste par son id 
     @Put(':id')
     async UpdateArtist(
         @Param('id') 

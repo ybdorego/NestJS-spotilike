@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Morceau } from './schemas/morceau.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
@@ -23,8 +23,14 @@ export class MorceauService {
             return res;
         }
 
-        // trouvé l'morceau par son id
+        // trouvé un morceau par son id
         async findById(id: string): Promise<Morceau>{
+
+            const isvalid = mongoose.isValidObjectId(id)
+
+            if(!isvalid){
+                throw new BadRequestException('entrez un id valide.')
+            }
             const morceau = await this.morceauModel.findById(id)
 
             if(!morceau){
