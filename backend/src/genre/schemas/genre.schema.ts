@@ -7,10 +7,10 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 export class Genre {
 
-    @Prop()
+    @Prop({required: true})
     titre: string;
 
-    @Prop()
+    @Prop({required: false})
     description: string; 
 
 }

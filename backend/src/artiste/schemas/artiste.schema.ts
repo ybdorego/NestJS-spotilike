@@ -8,13 +8,13 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 export class Artiste {
 
-    @Prop()
+    @Prop({required: true})
     nom: string;
     
-    @Prop()
+    @Prop({required: false})
     avatar: string; 
 
-    @Prop()
+    @Prop({required: false})
     biographie: string; 
 
 }

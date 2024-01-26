@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose from "mongoose";
+import { Genre } from "src/genre/schemas/genre.schema";
 
 
 @Schema({
@@ -7,11 +9,14 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 export class Morceau {
 
-    @Prop()
+    @Prop({required: true})
     titre: string;
 
-    @Prop()
+    @Prop({required: true})
     duree: string; 
+
+    @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Genre"})
+    genre?: Genre;
 
 }
 
