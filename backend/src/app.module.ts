@@ -8,6 +8,11 @@ import { AlbumModule } from './album/album.module';
 import { MorceauModule } from './morceau/morceau.module';
 import { GenreModule } from './genre/genre.module';
 import { UtilisateurModule } from './utilisateur/utilisateur.module';
+import { ArtisteAlbumModule } from './artiste-album/artiste-album.module';
+import { AlbumMorceauModule } from './album-morceau/album-morceau.module';
+import { ArtisteMorceauModule } from './artiste-morceau/artiste-morceau.module';
+
+
 
 @Module({
   imports: [
@@ -21,6 +26,9 @@ import { UtilisateurModule } from './utilisateur/utilisateur.module';
     MorceauModule,
     GenreModule,
     UtilisateurModule,
+    ArtisteAlbumModule,
+    AlbumMorceauModule,
+    ArtisteMorceauModule
   ],
   controllers: [AppController],
   providers: [AppService],

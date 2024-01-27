@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateAlbumDto{
     @IsNotEmpty()
@@ -10,6 +10,11 @@ export class CreateAlbumDto{
     readonly pochette: string;
 
     @IsNotEmpty()
-    @IsDate()
-    readonly dateSortie: Date;
+    @IsString()
+    // @IsDate()
+    readonly dateSortie: string;
+
+    // @IsString()
+    // @IsNotEmpty()
+    // readonly artisteId: string;
 }

@@ -4,12 +4,13 @@ import * as mongoose from 'mongoose';
 import { Artiste } from './schemas/artiste.schema';
 
 
+
 @Injectable()
 export class ArtisteService {
 
 	constructor(
-        @InjectModel(Artiste.name)
-        private artisteModel: mongoose.Model<Artiste>
+        @InjectModel(Artiste.name) 
+        private artisteModel: mongoose.Model<Artiste>,
         ) {}
         
         async findAll(): Promise<Artiste[]>{

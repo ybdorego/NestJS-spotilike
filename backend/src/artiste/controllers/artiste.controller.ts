@@ -1,8 +1,8 @@
 import { ArtisteService } from '../artiste.service';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post,  UsePipes, ValidationPipe } from '@nestjs/common';//Put,
 import { Artiste } from '../schemas/artiste.schema';
 import { CreateArtisteDto } from '../dto/create-artiste.dto';
-import { UpdateArtisteDto } from '../dto/update-artiste.dto';
+// import { UpdateArtisteDto } from '../dto/update-artiste.dto';
 
 @Controller('artiste')
 export class ArtisteController {
@@ -17,10 +17,8 @@ export class ArtisteController {
     
     // creation d'un artiste
     @Post()
-    async createArtist(
-        @Body()
-        artiste: CreateArtisteDto
-    ): Promise<Artiste> {
+    @UsePipes(new ValidationPipe())
+    async createArtist(@Body() artiste: CreateArtisteDto): Promise<Artiste> {
         return this.artisteService.create(artiste)
     }
 
@@ -35,15 +33,15 @@ export class ArtisteController {
     }
 
     // mise a jours d'un artiste par son id 
-    @Put(':id')
-    async UpdateArtist(
-        @Param('id') 
-        id: string,
-        @Body()
-        artiste: UpdateArtisteDto
-    ): Promise<Artiste> {
-        return this.artisteService.updateById(id, artiste)
-    }
+    // @Put(':id')
+    // async UpdateArtist(
+    //     @Param('id') 
+    //     id: string,
+    //     @Body()
+    //     artiste: UpdateArtisteDto
+    // ): Promise<Artiste> {
+    //     return this.artisteService.updateById(id, artiste)
+    // }
     
 
 

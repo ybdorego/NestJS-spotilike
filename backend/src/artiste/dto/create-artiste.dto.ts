@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import {  IsNotEmpty, IsString } from "class-validator";
 
 export class CreateArtisteDto{
 
@@ -13,4 +13,9 @@ export class CreateArtisteDto{
     @IsNotEmpty()
     @IsString()
     readonly biographie: string;
+
+    // @IsEmpty()
+    // @IsString()
+    // readonly album: string;
+
 }
