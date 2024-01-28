@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a0ba1e2d-0212-4ede-af5d-fe5d031d3cdb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/frondEnd/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frondEnd/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frondEnd/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frondEnd/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/frondEnd/src/assets/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/TheWelcome.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/WelcomeItem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/icons/IconCommunity.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/icons/IconDocumentation.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/icons/IconEcosystem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/icons/IconSupport.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/components/icons/IconTooling.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frondEnd/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frondEnd/src/main.js" afterDir="false" />
-    </list>
+    <list default="true" id="a0ba1e2d-0212-4ede-af5d-fe5d031d3cdb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +48,7 @@
       <option name="presentableId" value="Default" />
       <updated>1706127405388</updated>
       <workItem from="1706127411988" duration="3550000" />
-      <workItem from="1706177659169" duration="351000" />
+      <workItem from="1706177659169" duration="1219000" />
     </task>
     <servers />
   </component>

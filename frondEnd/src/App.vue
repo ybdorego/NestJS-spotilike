@@ -9,7 +9,7 @@
 
 
 
-import SginIn from './components/SginIn.vue';
+import SginIn from './components/UserView/SginIn.vue';
 export default {
   name:"App",
 }
@@ -17,6 +17,7 @@ export default {
 <style>
 body {
   font-family: "Lato", sans-serif;
+  background-color: black;
 }
 
 </style>

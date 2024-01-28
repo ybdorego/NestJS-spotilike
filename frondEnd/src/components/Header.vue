@@ -2,12 +2,18 @@
   <div>
     <!-- Navbar Component -->
     <ul>
-      <li style="float:right"><a class="active" href="#about">
-        <img 
-          class="rounded-full" 
-          width="27"
-          src="https://yt3.ggpht.com/e9o-24_frmNSSVvjS47rT8qCHgsHNiedqgXbzmrmpsj6H1ketcufR1B9vLXTZRa30krRksPj=s88-c-k-c0x00ffffff-no-rj-mo"
-        >About</a></li>
+      <li style="float:right">
+        <div class="user-dropdown">
+          <span>
+            <img width="50" src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" alt="icon"/>
+            {{currentUser.email}} 
+          </span>
+          <div class="dropdown-content">
+            <router-link to="/profile">Profile</router-link>
+            <a @click="logout" href="#">Logout</a>
+          </div>
+        </div>
+      </li>
     </ul>
 
     <!-- Sidebar Component -->
@@ -32,13 +38,35 @@
 export default {
   data() {
     return {
-      openMenu: false,
+      isDropdownOpen: false,
+      
     };
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user ? this.$store.state.auth.user.email : '';
+    },
+  },
+  methods: {
+    logout() {
+      
+      console.log("Logout clicked");
+    },
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
+  },
+  created() {
+    if (!this.currentUser) {
+      this.$router.push('/');
+    }
   },
 };
 </script>
 
-<style>
+<style scoped>
+/* ... your existing styles ... */
+
 .sidenav {
   height: 100%;
   width: 200px;
@@ -87,7 +115,7 @@ export default {
 ul {
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding:3px;
   overflow: hidden;
   background-color: black;
 }
@@ -110,5 +138,35 @@ li a:hover:not(.active) {
 
 .active {
   background-color: #04AA6D;
+}
+/* Additional styles for dynamic username */
+.user-dropdown span {
+  font-size: 30px;
+  margin-right: 10px; /* Adjust margin as needed */
+  color: white; /* Set color as needed */
+  cursor: pointer;
+}
+
+.user-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
 }
 </style>

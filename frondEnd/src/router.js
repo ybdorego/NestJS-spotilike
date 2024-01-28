@@ -1,11 +1,16 @@
 
 import { createRouter, createWebHistory } from 'vue-router';
 
-import Home from './components/Home.vue';
+import Home from '@/components/Home.vue';
+import SginIn from '@/components/UserView/SginIn.vue';
+import Profile from '@/components/UserView/Profile.vue';
+import SginUp from '@/components/UserView/SginUp.vue';
+import Library from "@/components/AlbemView/Library.vue"; 
+import AlbumsView from "@/components/AlbemView/AlbumsView.vue"; 
+import Artiste from "@/components/ArtisteView/Artiste.vue";
+import ArtistView from "@/components/ArtisteView/ArtistView.vue";
 
-import SginIn from './components/SginIn.vue';
-import SginUp from './components/SginUp.vue';
-import Library from "@/components/Library.vue";
+
 const routes = [
     {
         path: '/',
@@ -23,10 +28,32 @@ const routes = [
         component: SginUp
     },
     {
-        path: '/library',
-        name: 'library',
+        path: '/albums',
+        name: 'albums',
         component: Library
     },
+    {
+        path: '/albums/:id',
+        name: 'albums',
+        component: AlbumsView
+    },
+    {
+        path: '/artiste',
+        name: 'artiste',
+        component: Artiste
+    },
+    {
+        path: '/artiste/:id',
+        name: 'artiste',
+        component: ArtistView
+    },
+    
+    {
+        path: '/profile',
+        name: 'profile',
+        component: Profile
+    },
+
 
 
 

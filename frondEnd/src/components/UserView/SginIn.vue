@@ -1,6 +1,6 @@
 <template>
-  <div class="w3-container">
-    <form action="/action_page.php" method="post">
+  <div class="container">
+    <form name="form" @submit.prevent="handleLogin">
       <div class="imgcontainer">
         <img
             src="https://static.vecteezy.com/ti/vecteur-libre/p1/8385659-spotify-social-media-icon-logo-abstract-symbol-illustration-gratuit-vectoriel.jpg"
@@ -9,32 +9,70 @@
 
       <div class="container">
         <label for="email"><b>E-mail : </b></label>
-        <input type="text" placeholder="Enter Username" name="email" required>
-
+        <input type="text" placeholder="Email" name="email"  class="form-control" v-model="user.email"  v-validate="'required'">
+       
         <label for="password"><b>Password : </b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-
-        <button type="submit">Login</button>
-
+        <input type="password" placeholder="Password" name="password"  class="form-control"  v-model="user.password"
+            v-validate="'required'">
+            
+          <button class="btn btn-primary btn-block" :disabled="loading">
+            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+            <span>Login</span>
+          </button>
       </div>
-
-
         <button type="button" class="cancelbtn">Cancel</button>
         <span class="psw">Create your account <a href="#">SiginUp?</a></span>
-
     </form>
   </div>
 </template>
 <script>
-
+import User from './User';
 export default {
   name: "login",
   data() {
-    return {};
+    return {
+      user: new User('', ''),
+      loading: false,
+      message: ''
+    };
   },
-  methods: {}
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push('/home');
+    }
+  },
+  methods: {
+    handleLogin() {
+      this.loading = true;
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }
 
-}
+        if (this.user.username && this.user.password) {
+          this.$store.dispatch('auth/login', this.user).then(
+            () => {
+              this.$router.push('/profile');
+            },
+            error => {
+              this.loading = false;
+              this.message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            }
+          );
+        }
+      });
+    }
+  }
+};
 
 
 </script>
@@ -117,3 +155,4 @@ span.psw {
 }
 
 </style>
+
