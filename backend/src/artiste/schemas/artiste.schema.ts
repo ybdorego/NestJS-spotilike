@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+// import mongoose from "mongoose";
+// import { Album } from "src/album/schemas/album.schema";
 
 
 
@@ -8,7 +10,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 export class Artiste {
 
-    @Prop()
+    @Prop({unique: [true, 'il y a deja un artiste de ce nom']})
     nom: string;
     
     @Prop()
@@ -17,6 +19,10 @@ export class Artiste {
     @Prop()
     biographie: string; 
 
+    // @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Album"})
+    // albums: [Album];
+
 }
 
 export const ArtistShema = SchemaFactory.createForClass(Artiste)
+
