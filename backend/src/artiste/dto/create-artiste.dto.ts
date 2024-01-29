@@ -1,4 +1,6 @@
-import {  IsNotEmpty, IsString } from "class-validator";
+import {  IsArray, IsEmpty, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { Types } from "mongoose";
+// import { Album } from "src/album/schemas/album.schema";
 
 export class CreateArtisteDto{
 
@@ -15,7 +17,8 @@ export class CreateArtisteDto{
     readonly biographie: string;
 
     // @IsEmpty()
-    // @IsString()
-    // readonly album: string;
+    // @IsArray()
+    // @IsOptional()
+    // readonly album: Types.ObjectId[];
 
 }

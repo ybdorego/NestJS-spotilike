@@ -2,6 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Artiste } from './schemas/artiste.schema';
+import { Morceau } from 'src/morceau/schemas/morceau.schema';
+import { Album } from 'src/album/schemas/album.schema';
+import { CreateArtisteDto } from './dto/create-artiste.dto';
 
 
 
@@ -9,8 +12,9 @@ import { Artiste } from './schemas/artiste.schema';
 export class ArtisteService {
 
 	constructor(
-        @InjectModel(Artiste.name) 
-        private artisteModel: mongoose.Model<Artiste>,
+        @InjectModel(Artiste.name) private artisteModel: mongoose.Model<Artiste>,
+        @InjectModel(Morceau.name) private morceauModel: mongoose.Model<Morceau>,
+        @InjectModel(Album.name) private albumModel: mongoose.Model<Album>,
         ) {}
         
         async findAll(): Promise<Artiste[]>{
@@ -18,7 +22,7 @@ export class ArtisteService {
                 return artistes;
         }
 
-        async create(artiste: Artiste): Promise<Artiste>{
+        async create(artiste: CreateArtisteDto): Promise<Artiste>{
                 const res = await this.artisteModel.create(artiste)
                 return res;
         }
@@ -47,8 +51,59 @@ export class ArtisteService {
                         new: true,
                         runValidators :true
                 });    
-
         }
+
+        // suppression de l'artiste ainsi que de tout les album
+        // async deleteArtiste(id: string): Promise<Artiste> {
+               
+        //         const artiste = await this.artisteModel.findById(id);
+        //         if (!artiste) {
+        //           throw new NotFoundException('Artiste non trouvé');
+        //         }
+            
+        //         // Récupérer les albums associés à l'artiste
+        //         const albumIds = await this.artisteAlbumModel.find({ artiste: id }).distinct('album');
+               
+        //         // Supprimer les album associés
+        //         await this.albumModel.deleteMany({ _id: { $in: albumIds } }).exec();
+            
+        //         // Supprimer la relation Artiste-album associée à l'artiste
+        //         await this.artisteAlbumModel.deleteMany({ artiste: id }).exec();
+            
+        //         // Enfin, supprimer l'artiste lui-même
+        //         await this.artisteModel.deleteOne({ _id: id }).exec();
+
+        //         return artiste;
+        //       }
+
+        async delete(id: string): Promise<Artiste>{
+                return await this.artisteModel.findByIdAndDelete(id);
+        }
+
+
+        async getArtisteWithAlbums(id: string): Promise<Artiste> {
+                try {
+                        const artiste = await this.artisteModel
+                                .findById(id)
+                                .populate({
+                                        path: 'albums',
+                                        model: 'Album',
+                                })
+                                .exec();
+
+                        if (!artiste) {
+                                throw new NotFoundException('Artiste non trouvé');
+                        }
+
+                        return artiste;
+                } catch (error) {
+                        throw new NotFoundException('Artiste non trouvé', error);
+                }
+        }
+
+        // async getArtisteWithAlbums(id: string): Promise<Artiste> {
+        //         return this.artisteModel.findById(id).populate('albums');
+        //       }
 
 
 }

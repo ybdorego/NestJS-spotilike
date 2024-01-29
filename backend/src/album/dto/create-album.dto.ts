@@ -16,5 +16,5 @@ export class CreateAlbumDto{
 
     // @IsString()
     // @IsNotEmpty()
-    // readonly artisteId: string;
+    // artisteId: string;
 }
