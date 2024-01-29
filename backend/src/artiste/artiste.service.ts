@@ -54,27 +54,20 @@ export class ArtisteService {
         }
 
         // suppression de l'artiste ainsi que de tout les album
-        // async deleteArtiste(id: string): Promise<Artiste> {
-               
-        //         const artiste = await this.artisteModel.findById(id);
-        //         if (!artiste) {
-        //           throw new NotFoundException('Artiste non trouvé');
-        //         }
+        async deleteArtiste(id: string): Promise<Artiste> {
+                const artiste = await this.artisteModel.findById(id);
+                if (!artiste) {
+                    throw new NotFoundException('Artiste non trouvé');
+                }
             
-        //         // Récupérer les albums associés à l'artiste
-        //         const albumIds = await this.artisteAlbumModel.find({ artiste: id }).distinct('album');
-               
-        //         // Supprimer les album associés
-        //         await this.albumModel.deleteMany({ _id: { $in: albumIds } }).exec();
+                // Supprimer les albums associés à l'artiste
+                await this.albumModel.deleteMany({ artiste: id }).exec();
             
-        //         // Supprimer la relation Artiste-album associée à l'artiste
-        //         await this.artisteAlbumModel.deleteMany({ artiste: id }).exec();
+                // Enfin, supprimer l'artiste lui-même
+                await this.artisteModel.deleteOne({ _id: id }).exec();
             
-        //         // Enfin, supprimer l'artiste lui-même
-        //         await this.artisteModel.deleteOne({ _id: id }).exec();
-
-        //         return artiste;
-        //       }
+                return artiste;
+            }
 
         async delete(id: string): Promise<Artiste>{
                 return await this.artisteModel.findByIdAndDelete(id);
@@ -100,10 +93,6 @@ export class ArtisteService {
                         throw new NotFoundException('Artiste non trouvé', error);
                 }
         }
-
-        // async getArtisteWithAlbums(id: string): Promise<Artiste> {
-        //         return this.artisteModel.findById(id).populate('albums');
-        //       }
 
 
 }

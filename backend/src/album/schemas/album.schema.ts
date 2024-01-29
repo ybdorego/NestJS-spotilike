@@ -1,10 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from 'mongoose';
 // import mongoose from "mongoose";
-// import { Artiste } from "src/artiste/schemas/artiste.schema";
-// import { Genre } from "src/genre/schemas/genre.schema";
-// import { Morceau } from "src/morceau/schemas/morceau.schema";
-
 
 @Schema({
     timestamps: true

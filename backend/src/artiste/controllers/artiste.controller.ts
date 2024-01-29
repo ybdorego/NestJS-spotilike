@@ -54,13 +54,13 @@ export class ArtisteController {
     //     return this.artisteService.updateById(id, artiste)
     // }
 
-    // @Delete('albumArtiste/:id')
-    // async DeleteArtistAlbum(
-    //     @Param('id') 
-    //     id : string,
-    //  ): Promise<Artiste> {
-    //     return this.artisteService.deleteArtiste(id);
-    // }
+    @Delete('albumArtiste/:id')
+    async DeleteArtistAlbum(
+        @Param('id') 
+        id : string,
+     ): Promise<Artiste> {
+        return this.artisteService.deleteArtiste(id);
+    }
 
     @Delete(':id')
     async DeleteArtist(

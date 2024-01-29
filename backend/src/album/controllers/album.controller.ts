@@ -37,6 +37,15 @@ export class AlbumController {
         return this.albumservice.findById(id);
     }
 
+    // affiche les album d'un artiste grace a son id 
+    @Get('album/:idArtiste')
+    async getArtisteAlbumByIdartiste(
+        @Param('idArtiste') 
+        idArtiste: string
+    ): Promise<Album[]> {
+        return this.albumservice.findAlbumsByArtisteId(idArtiste);
+    }
+
     // mise a jours de l'album par son id 
     // @Put(':id')
     // async UpdateAlbum(

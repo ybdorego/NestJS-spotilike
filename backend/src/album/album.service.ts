@@ -32,49 +32,15 @@ export class AlbumService {
             return saveAlbum;
         }
 
-
-
-        // async create(artisteid, createAlbumDto: CreateAlbumDto): Promise<Album>{
-        //     const Artiste = await this.artisteModel.findById(artisteid)
-
-        //     if(!Artiste) throw new HttpException("artiste non trouvé", 404);
-
-
-        //     const newAlbum = new this.albumModel({...createAlbumDto, artiste: artisteid});
-        //     const saveAlbum = await newAlbum.save();
-
-        //     await Artiste.updateOne({
-        //         $push: {
-        //             albums: saveAlbum.id,
-        //         },
-        //     });
-
-        //     return saveAlbum;
-        // }
-
-        // crée un album avec le DTO
-        // async create(artisteId: string, createAlbumDto: CreateAlbumDto): Promise<Album>{
-        //     const Artiste = await this.artisteModel.findById(artisteId)
-
-        //     if(!Artiste) throw new HttpException("artiste non trouvé", 404);
-
-        //     // const newAlbum = await this.albumModel.create(createAlbumDto)
-
-        //     // const relation =  new this.artisteAlbumModel({album: newAlbum.id, artiste: artisteId});
-        //     // await relation.save();
-        
-        //     // return newAlbum;
-        // }
-
-        // // crée un album
-        // async create(album: Album): Promise<Album>{
-        //     const res = await this.albumModel.create(album)
-        //     return res;
-        // }
-
         // afficher tout les albums 
         async findAll(): Promise<Album[]>{
             const albums = await this.albumModel.find();
+            return albums;
+        }
+
+        // afficher le ou les album d'un artiste grace a son id 
+        async findAlbumsByArtisteId(artisteId: string): Promise<Album[]> {
+            const albums = await this.albumModel.find({ artiste: artisteId });
             return albums;
         }
 
