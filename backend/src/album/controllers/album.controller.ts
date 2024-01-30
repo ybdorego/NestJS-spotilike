@@ -1,8 +1,8 @@
 import { AlbumService } from './../album.service';
-import { Body, Controller, Get, Param, Post,  UsePipes, ValidationPipe } from '@nestjs/common';// Put,
+import { Body, Controller, Get, Param, Post,  Put,  UsePipes, ValidationPipe } from '@nestjs/common';// Put,
 import { Album } from '../schemas/album.schema';
 import { CreateAlbumDto } from '../dto/create-album.dto';
-// import { UpdateAlbumDto } from '../dto/update-album.dto';
+import { UpdateAlbumDto } from '../dto/update-album.dto';
 
 @Controller('album')
 export class AlbumController {
@@ -47,14 +47,14 @@ export class AlbumController {
     }
 
     // mise a jours de l'album par son id 
-    // @Put(':id')
-    // async UpdateAlbum(
-    //     @Param('id') 
-    //     id: string,
-    //     @Body()
-    //     album: UpdateAlbumDto
-    // ): Promise<Album> {
-    //     return this.albumservice.updateById(id, album)
-    // }
+    @Put(':id')
+    async UpdateAlbum(
+        @Param('id') 
+        id: string,
+        @Body()
+        album: UpdateAlbumDto
+    ): Promise<Album> {
+        return this.albumservice.updateById(id, album)
+    }
 
 }

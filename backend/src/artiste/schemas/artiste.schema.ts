@@ -24,6 +24,9 @@ export class Artiste extends Document{
     @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Album'}])
     albums: mongoose.Types.ObjectId[];
 
+    @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Morceau'}])
+    morceaux: mongoose.Types.ObjectId[];
+
    
 }
 
