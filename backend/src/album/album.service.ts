@@ -17,19 +17,24 @@ export class AlbumService {
 
         //  crée un album 
         async create(artisteid, createAlbumDto: CreateAlbumDto): Promise<Album>{
+            const existingAlbum = await this.albumModel.findOne({ titre: createAlbumDto.titre });
+            
+            console.log(existingAlbum);
+            if(existingAlbum) throw new HttpException("L'album existe déjà", 400);
+
             const Artiste = await this.artisteModel.findById(artisteid)
-        
+
             if(!Artiste) throw new HttpException("artiste non trouvé", 404);
-        
+
             const newAlbum = new this.albumModel({...createAlbumDto, artiste: artisteid});
             const saveAlbum = await newAlbum.save();
-        
+
             await Artiste.updateOne({
                 $push: {
                     albums: saveAlbum.id,
                 },
             });
-        
+
             return saveAlbum;
         }
 
@@ -39,7 +44,7 @@ export class AlbumService {
             return albums;
         }
 
-        // afficher le ou les album d'un artiste grace a son id 
+        // afficher le ou les album d'un artiste grace a son idartiste 
         async findAlbumsByArtisteId(artisteId: string): Promise<Album[]> {
             const albums = await this.albumModel.find({ artiste: artisteId });
             return albums;

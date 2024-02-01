@@ -17,8 +17,11 @@ export class Album extends Document{
     @Prop({ required: true })
     dateSortie: Date; 
 
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Artiste"})
-    artiste: mongoose.Types.ObjectId;
+    @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Artiste'}])
+    artiste: mongoose.Types.ObjectId[];
+
+    @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Morceau'}])
+    morceaux: mongoose.Types.ObjectId[];
 
 }
 

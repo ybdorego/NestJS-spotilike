@@ -11,20 +11,28 @@ export class GenreService {
         private genreModel: mongoose.Model<Genre>
         ) {}
 
-        // afficher tout les genres 
-        async findAll(): Promise<Genre[]>{
+
+         // crée un genre mais avant verifier si li n'existe pas deja
+         
+        async create(genre: Genre): Promise<Genre>{
+            const existingGenre = await this.genreModel.findOne({ name: genre.titre });
+
+            if (existingGenre) {
+                throw new BadRequestException('Le genre existe déjà.');
+            }
+
+            const res = await this.genreModel.create(genre);
+            return res;
+        }
+
+         // afficher tout les genres 
+         async findAll(): Promise<Genre[]>{
             const genres = await this.genreModel.find();
             return genres;
         }
 
-        // crée un genre
-        async create(genre: Genre): Promise<Genre>{
-            const res = await this.genreModel.create(genre)
-            return res;
-        }
-
-        // trouvé le genre par son id
-        async findById(id: string): Promise<Genre>{
+         // trouvé le genre par son id
+         async findById(id: string): Promise<Genre>{
 
             const isvalid = mongoose.isValidObjectId(id)
 
@@ -40,12 +48,46 @@ export class GenreService {
             return genre;
         }
 
-        // maj de le genre par son id
-        async updateById(id: string, genre: Genre): Promise<Genre>{
-            return await this.genreModel.findByIdAndUpdate(id,genre, {
-                     new: true,
-                     runValidators :true
-             });    
+        // trouvé un genre par son id 
+        async findByName(name: string): Promise<Genre> {
+            const genre = await this.genreModel.findOne({ name: name });
+        
+            if (!genre) {
+                throw new NotFoundException('Genre not found');
+            }
+        
+            return genre;
         }
+       
+        // mise a jour du genre par son id 
+        async updateById(id: string, genre: Genre): Promise<Genre> {
+            const existingGenre = await this.genreModel.findById(id);
+            if (!existingGenre) {
+                throw new NotFoundException('Genre non trouvé');
+            }
+        
+            // Mettre à jour les propriétés du genre existant
+            Object.assign(existingGenre, genre);
+        
+            // Sauvegarder le genre mis à jour
+            const updatedGenre = await existingGenre.save();
+        
+            return updatedGenre;
+        }
+
+
+        // supression d'un genre
+
+        async deleteById(id: string): Promise<Genre> {
+            const deletedGenre = await this.genreModel.findByIdAndDelete(id);
+        
+            if (!deletedGenre) {
+                throw new NotFoundException('Genre non trouvé');
+            }
+        
+            return deletedGenre;
+        }
+
+
 
 }

@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
-// import { Album } from "src/album/schemas/album.schema";
-// import { ArtisteAlbum } from "src/artiste-album/schemas/artisteAlbum.schema";
 import { Document } from 'mongoose';
 
 

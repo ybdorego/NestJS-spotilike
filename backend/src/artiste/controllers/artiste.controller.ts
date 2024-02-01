@@ -1,9 +1,8 @@
 import { ArtisteService } from '../artiste.service';
-import { Body, Controller, Delete, Get, Param, Post,  UsePipes, ValidationPipe } from '@nestjs/common';//Put,
+import { Body, Controller, Delete, Get, Param, Post,Put,UsePipes, ValidationPipe } from '@nestjs/common';//Put,
 import { Artiste } from '../schemas/artiste.schema';
 import { CreateArtisteDto } from '../dto/create-artiste.dto';
-// import { CreateArtisteDto } from '../dto/create-artiste.dto';
-// import { UpdateArtisteDto } from '../dto/update-artiste.dto';
+import { UpdateArtisteDto } from '../dto/update-artiste.dto';
 
 @Controller('artiste')
 export class ArtisteController {
@@ -44,15 +43,15 @@ export class ArtisteController {
     }
 
     // mise a jours d'un artiste par son id 
-    // @Put(':id')
-    // async UpdateArtist(
-    //     @Param('id') 
-    //     id: string,
-    //     @Body()
-    //     artiste: UpdateArtisteDto
-    // ): Promise<Artiste> {
-    //     return this.artisteService.updateById(id, artiste)
-    // }
+    @Put(':id')
+    async UpdateArtist(
+        @Param('id') 
+        id: string,
+        @Body()
+        artiste: UpdateArtisteDto
+    ): Promise<Artiste> {
+        return this.artisteService.updateById(id, artiste);
+    }
 
     @Delete('albumArtiste/:id')
     async DeleteArtistAlbum(
@@ -61,15 +60,5 @@ export class ArtisteController {
      ): Promise<Artiste> {
         return this.artisteService.deleteArtiste(id);
     }
-
-    @Delete(':id')
-    async DeleteArtist(
-        @Param('id') 
-        id : string,
-     ): Promise<Artiste> {
-        return this.artisteService.delete(id);
-    }
-
-
 
 }

@@ -5,6 +5,7 @@ import { Artiste } from './schemas/artiste.schema';
 import { Morceau } from 'src/morceau/schemas/morceau.schema';
 import { Album } from 'src/album/schemas/album.schema';
 import { CreateArtisteDto } from './dto/create-artiste.dto';
+import { UpdateArtisteDto } from './dto/update-artiste.dto';
 
 
 
@@ -17,17 +18,19 @@ export class ArtisteService {
         @InjectModel(Album.name) private albumModel: mongoose.Model<Album>,
         ) {}
         
-        async findAll(): Promise<Artiste[]>{
-                const artistes = await this.artisteModel.find();
-                return artistes;
-        }
-
+        //  crée un artiste + verification de l'existance de celui ci 
         async create(artiste: CreateArtisteDto): Promise<Artiste>{
-                const res = await this.artisteModel.create(artiste)
+                const existingArtiste = await this.artisteModel.findOne({ nom: artiste.nom });
+
+                if (existingArtiste) {
+                        throw new BadRequestException('Cet artiste existe déjà.');
+                }
+
+                const res = await this.artisteModel.create(artiste);
                 return res;
         }
 
-        // trouvé l'artiste par son id
+        // trouvé l'artiste par son id + verification de l'id
         async findById(id: string): Promise<Artiste>{
 
                 const isvalid = mongoose.isValidObjectId(id)
@@ -44,36 +47,25 @@ export class ArtisteService {
                 return artiste;
         }
 
-
-        // maj de l'artiste par son id
-        async updateById(id: string, artiste: Artiste): Promise<Artiste>{
-               return await this.artisteModel.findByIdAndUpdate(id,artiste, {
-                        new: true,
-                        runValidators :true
-                });    
-        }
-
-        // suppression de l'artiste ainsi que de tout les album
-        async deleteArtiste(id: string): Promise<Artiste> {
-                const artiste = await this.artisteModel.findById(id);
+        
+        // trouvé l'artiste par son nom
+        async findByName(nom: string): Promise<Artiste> {
+                const artiste = await this.artisteModel.findOne({ nom: nom });
+            
                 if (!artiste) {
                     throw new NotFoundException('Artiste non trouvé');
                 }
             
-                // Supprimer les albums associés à l'artiste
-                await this.albumModel.deleteMany({ artiste: id }).exec();
-            
-                // Enfin, supprimer l'artiste lui-même
-                await this.artisteModel.deleteOne({ _id: id }).exec();
-            
                 return artiste;
             }
-
-        async delete(id: string): Promise<Artiste>{
-                return await this.artisteModel.findByIdAndDelete(id);
+        
+        // trouvé tous les artistes
+        async findAll(): Promise<Artiste[]>{
+                const artistes = await this.artisteModel.find();
+                return artistes;
         }
 
-
+        // afficher tout les albums d'un artiste grace a son id
         async getArtisteWithAlbums(id: string): Promise<Artiste> {
                 try {
                         const artiste = await this.artisteModel
@@ -93,6 +85,38 @@ export class ArtisteService {
                         throw new NotFoundException('Artiste non trouvé', error);
                 }
         }
+        
+        // maj de l'artiste par son id
+        async updateById(id: string, artiste: UpdateArtisteDto): Promise<Artiste> {
+                const existingArtiste = await this.artisteModel.findById(id);
+                if (!existingArtiste) {
+                        throw new NotFoundException('Artiste non trouvé');
+                }
+
+                // Mettre à jour les propriétés de l'artiste existant
+                Object.assign(existingArtiste, artiste);
+
+                // Sauvegarder l'artiste mis à jour
+                const updatedArtiste = await existingArtiste.save();
+
+                return updatedArtiste;
+        }
+        // suppression de l'artiste ainsi que de tout ces album
+        async deleteArtiste(id: string): Promise<Artiste> {
+                const artiste = await this.artisteModel.findById(id);
+                if (!artiste) {
+                    throw new NotFoundException('Artiste non trouvé');
+                }
+            
+                // Supprimer les albums associés à l'artiste
+                await this.albumModel.deleteMany({ artiste: id }).exec();
+            
+                // supprimer l'artiste lui-même
+                await this.artisteModel.deleteOne({ _id: id }).exec();
+            
+                return artiste;
+            }
+
 
 
 }

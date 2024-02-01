@@ -18,9 +18,4 @@ export class CreateArtisteDto{
     @IsString()
     readonly biographie: string;
 
-    // @IsEmpty()
-    // @IsArray()
-    // @IsOptional()
-    // readonly album: Types.ObjectId[];
-
 }

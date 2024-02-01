@@ -10,6 +10,8 @@ export class AlbumController {
 	constructor(private albumservice: AlbumService) {
 	}
 
+
+    // trouvé tous les albums
     @Get()
     async getallAlbums(): Promise<Album[]> {
         return this.albumservice.findAll();
