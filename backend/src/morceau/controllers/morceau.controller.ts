@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MorceauService } from '../morceau.service';
 import { CreateMorceauDto } from '../dto/create-morceau.dto';
-import { UpdateMorceauDto } from '../dto/update-morceau.dto';
 import { Morceau } from '../schemas/morceau.schema';
+import { UpdateMorceauDto } from '../dto/update-morceau.dto';
 
 @Controller('morceau')
 export class MorceauController {
@@ -10,6 +10,7 @@ export class MorceauController {
     constructor(private morceauService: MorceauService) {
 	}
 
+     // get tous les morceau
     @Get()
     async getallMorceau(): Promise<Morceau[]> {
         return this.morceauService.findAll();
@@ -17,13 +18,15 @@ export class MorceauController {
 
 
     // creation d'un Morceau
-    @Post()
-    @UsePipes(new ValidationPipe())
-    async createMorceau(
+    @Post(':idArtiste')
+    @UsePipes(new ValidationPipe)
+    async createAlbum(
+        @Param('idArtiste') 
+        idArtiste: string,
         @Body()
         morceau: CreateMorceauDto
-    ): Promise<Morceau> {
-        return this.morceauService.create(morceau)
+    ): Promise<Morceau> { 
+        return this.morceauService.create(idArtiste,morceau)
     }
 
     // touvée un morceau par son id 

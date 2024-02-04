@@ -1,4 +1,8 @@
-import {  IsNotEmpty, IsString } from "class-validator";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {  IsArray, IsEmpty, IsNotEmpty, IsOptional, IsString } from "class-validator";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Types } from "mongoose";
+// import { Album } from "src/album/schemas/album.schema";
 
 export class CreateArtisteDto{
 
@@ -13,9 +17,5 @@ export class CreateArtisteDto{
     @IsNotEmpty()
     @IsString()
     readonly biographie: string;
-
-    // @IsEmpty()
-    // @IsString()
-    // readonly album: string;
 
 }

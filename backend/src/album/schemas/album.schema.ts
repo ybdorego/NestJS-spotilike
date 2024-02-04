@@ -1,10 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 // import mongoose from "mongoose";
-// import { Artiste } from "src/artiste/schemas/artiste.schema";
-// import { Genre } from "src/genre/schemas/genre.schema";
-// import { Morceau } from "src/morceau/schemas/morceau.schema";
-
 
 @Schema({
     timestamps: true
@@ -21,16 +17,11 @@ export class Album extends Document{
     @Prop({ required: true })
     dateSortie: Date; 
 
-    // @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Artiste"})
-    // artiste: Artiste;
+    @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Artiste'}])
+    artiste: mongoose.Types.ObjectId[];
 
-
-    // @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Morceau"})
-    // morceau: Morceau[];
-
-    // @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Genre"})
-    // genre: Genre[];
-
+    @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Morceau'}])
+    morceaux: mongoose.Types.ObjectId[];
 
 }
 

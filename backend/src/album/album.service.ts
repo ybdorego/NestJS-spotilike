@@ -4,40 +4,49 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Album } from './schemas/album.schema';
 import mongoose from 'mongoose';
 import { Artiste } from 'src/artiste/schemas/artiste.schema';
-import { ArtisteAlbum } from 'src/artiste-album/schemas/artisteAlbum.schema';
+import { UpdateAlbumDto } from './dto/update-album.dto';
 
 @Injectable()
 export class AlbumService {
 
     constructor(
         @InjectModel(Album.name) private albumModel: mongoose.Model<Album>,
-        @InjectModel(Artiste.name)private artisteModel: mongoose.Model<Artiste>,
-        @InjectModel(ArtisteAlbum.name)private artisteAlbumModel: mongoose.Model<ArtisteAlbum>
+        @InjectModel(Artiste.name) private artisteModel: mongoose.Model<Artiste>,
         ) {}
 
-        // crée un album avec le DTO
-        async create(artisteId: string, createAlbumDto: CreateAlbumDto): Promise<Album>{
-            const Artiste = await this.artisteModel.findById(artisteId)
+
+        //  crée un album 
+        async create(artisteid, createAlbumDto: CreateAlbumDto): Promise<Album>{
+            const existingAlbum = await this.albumModel.findOne({ titre: createAlbumDto.titre });
+            
+            console.log(existingAlbum);
+            if(existingAlbum) throw new HttpException("L'album existe déjà", 400);
+
+            const Artiste = await this.artisteModel.findById(artisteid)
 
             if(!Artiste) throw new HttpException("artiste non trouvé", 404);
 
-            const newAlbum = await this.albumModel.create(createAlbumDto)
+            const newAlbum = new this.albumModel({...createAlbumDto, artiste: artisteid});
+            const saveAlbum = await newAlbum.save();
 
-            const relation =  new this.artisteAlbumModel({album: newAlbum.id, artiste: artisteId});
-            await relation.save();
-        
-            return newAlbum;
+            await Artiste.updateOne({
+                $push: {
+                    albums: saveAlbum.id,
+                },
+            });
+
+            return saveAlbum;
         }
-
-        // // crée un album
-        // async create(album: Album): Promise<Album>{
-        //     const res = await this.albumModel.create(album)
-        //     return res;
-        // }
 
         // afficher tout les albums 
         async findAll(): Promise<Album[]>{
             const albums = await this.albumModel.find();
+            return albums;
+        }
+
+        // afficher le ou les album d'un artiste grace a son idartiste 
+        async findAlbumsByArtisteId(artisteId: string): Promise<Album[]> {
+            const albums = await this.albumModel.find({ artiste: artisteId });
             return albums;
         }
 
@@ -60,11 +69,19 @@ export class AlbumService {
         }
 
         // maj de l'album par son id
-        async updateById(id: string, album: Album): Promise<Album>{
-            return await this.albumModel.findByIdAndUpdate(id,album, {
-                     new: true,
-                     runValidators :true
-             });    
+        async updateById(id: string, album: UpdateAlbumDto): Promise<Album> {
+            const existingAlbum = await this.albumModel.findById(id);
+            if (!existingAlbum) {
+                throw new NotFoundException('Album non trouvé');
+            }
+        
+            // Mettre à jour les propriétés de l'album existant
+            Object.assign(existingAlbum, album);
+        
+            // Sauvegarder l'album mis à jour
+            const updatedAlbum = await existingAlbum.save();
+        
+            return updatedAlbum;
         }
 
 
