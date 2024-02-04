@@ -10,6 +10,7 @@
           </path>
         </svg>
       </div>
+      <router-link tag="li" to="/albums/:id"><a>Détail</a></router-link>
     </div>
   </div>
 </template>

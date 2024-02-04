@@ -21,14 +21,14 @@
       <router-link to="/home">
         <img width="125" src="https://i.pinimg.com/736x/5b/10/d7/5b10d7bb342b7eb3bc143d1faf39e8f5.jpg" alt="Logo">
       </router-link>
-      <router-link to="/home">
-        <a href="#">home</a>
+      <router-link to="/artiste">
+        <a >Artiste</a>
+      </router-link>
+      <router-link to="/albums">
+        <a >albums</a>
       </router-link>
       <router-link to="/">
-        <a href="#">home</a>
-      </router-link>
-      <router-link to="/">
-        <a href="#">home</a>
+        <a>Genres</a>
       </router-link>
     </div>
   </div>

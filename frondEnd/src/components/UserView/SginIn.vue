@@ -1,82 +1,100 @@
 <template>
   <div class="container">
-    <form name="form" @submit.prevent="handleLogin">
+    <form name="form" @submit.prevent="handleLogin" :validation-schema="schema">
       <div class="imgcontainer">
-        <img
-            src="https://static.vecteezy.com/ti/vecteur-libre/p1/8385659-spotify-social-media-icon-logo-abstract-symbol-illustration-gratuit-vectoriel.jpg"
-            alt="Avatar" class="avatar">
+        <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/8385659-spotify-social-media-icon-logo-abstract-symbol-illustration-gratuit-vectoriel.jpg" alt="Avatar" class="avatar" />
+        
       </div>
-
+      <div class="titre">
+        <h1>Connexion</h1>
+      </div>
+     
       <div class="container">
         <label for="email"><b>E-mail : </b></label>
-        <input type="text" placeholder="Email" name="email"  class="form-control" v-model="user.email"  v-validate="'required'">
-       
+        <Field name="email" type="text" class="form-control" />
+        <ErrorMessage name="email" class="error-feedback" />
+
         <label for="password"><b>Password : </b></label>
-        <input type="password" placeholder="Password" name="password"  class="form-control"  v-model="user.password"
-            v-validate="'required'">
-            
-          <button class="btn btn-primary btn-block" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Login</span>
-          </button>
+        <Field name="password" type="password" class="form-control" />
+        <ErrorMessage name="password" class="error-feedback" />
+
+        <button class="btn btn-primary btn-block" :disabled="loading">
+          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          <span>Login</span>
+        </button>
       </div>
-        <button type="button" class="cancelbtn">Cancel</button>
-        <span class="psw">Create your account <a href="#">SiginUp?</a></span>
+      <button type="button" class="cancelbtn">Cancel</button>
+      <span class="psw">Créer votre compte   <router-link to="/register">Inscription</router-link></span>
     </form>
   </div>
 </template>
+
 <script>
-import User from './User';
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+
 export default {
-  name: "login",
+  name: "Login",
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
   data() {
+    const schema = yup.object().shape({
+      email: yup.string().required("Email is required!").email("Must be a valid email"),
+      password: yup.string().required("Password is required!"),
+    });
+
     return {
-      user: new User('', ''),
       loading: false,
-      message: ''
+      message: "",
+      schema,
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push('/home');
+      this.$router.push("/profile");
     }
   },
   methods: {
     handleLogin() {
       this.loading = true;
-      this.$validator.validateAll().then(isValid => {
-        if (!isValid) {
+
+      this.$store.dispatch('auth/login', {
+        email: this.email,
+        password: this.password,
+      }).then(
+        () => {
+          this.$router.push('/home');
+        },
+        (error) => {
           this.loading = false;
-          return;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
         }
-
-        if (this.user.username && this.user.password) {
-          this.$store.dispatch('auth/login', this.user).then(
-            () => {
-              this.$router.push('/profile');
-            },
-            error => {
-              this.loading = false;
-              this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
-            }
-          );
-        }
-      });
-    }
-  }
+      );
+    },
+  },
 };
-
-
 </script>
+
+
 <style>
+.titre{
+  text-align: center;
+  margin-right: 30%;
+}
+
 form {
 
   width: 60%;

@@ -5,10 +5,11 @@ import Home from '@/components/Home.vue';
 import SginIn from '@/components/UserView/SginIn.vue';
 import Profile from '@/components/UserView/Profile.vue';
 import SginUp from '@/components/UserView/SginUp.vue';
-import Library from "@/components/AlbemView/Library.vue"; 
+import Albums from "@/components/AlbemView/Albums.vue"; 
 import AlbumsView from "@/components/AlbemView/AlbumsView.vue"; 
 import Artiste from "@/components/ArtisteView/Artiste.vue";
 import ArtistView from "@/components/ArtisteView/ArtistView.vue";
+import Gener from '@/components/GenresView/Gener.vue';
 
 
 const routes = [
@@ -30,7 +31,7 @@ const routes = [
     {
         path: '/albums',
         name: 'albums',
-        component: Library
+        component: Albums
     },
     {
         path: '/albums/:id',
@@ -38,16 +39,24 @@ const routes = [
         component: AlbumsView
     },
     {
+        path: '/register',
+        component: SginUp
+      },
+    {
         path: '/artiste',
         name: 'artiste',
         component: Artiste
     },
-    {
-        path: '/artiste/:id',
-        name: 'artiste',
-        component: ArtistView
+     {
+         path: '/artiste/:id',
+         name: 'artiste',
+         component: ArtistView
     },
-    
+    {
+        path: '/gener',
+        name: 'gener',
+        component: Gener
+   },
     {
         path: '/profile',
         name: 'profile',
