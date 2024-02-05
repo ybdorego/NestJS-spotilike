@@ -9,3 +9,14 @@ export class CreateMorceauDto{
     @IsString()
     readonly duree: string;
 }
+
+export class CreateMorceauWArtAlbDto{
+
+    @IsNotEmpty()
+    @IsString()
+    readonly titre: string;
+
+    @IsNotEmpty()
+    @IsString()
+    readonly duree: string;
+}

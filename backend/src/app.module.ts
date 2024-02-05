@@ -8,6 +8,7 @@ import { AlbumModule } from './album/album.module';
 import { MorceauModule } from './morceau/morceau.module';
 import { GenreModule } from './genre/genre.module';
 import { UtilisateurModule } from './utilisateur/utilisateur.module';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -23,6 +24,7 @@ import { UtilisateurModule } from './utilisateur/utilisateur.module';
     MorceauModule,
     GenreModule,
     UtilisateurModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

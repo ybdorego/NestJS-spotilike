@@ -15,9 +15,99 @@ export class MorceauService {
         @InjectModel(Artiste.name) private artisteModel: mongoose.Model<Artiste>,
         @InjectModel(Album.name) private albumModel: mongoose.Model<Album>,
         ) {}
+        
+        async createMorceauforalbum(artisteid, albumId: mongoose.Types.ObjectId,  createMorceauDto: CreateMorceauDto): Promise<Morceau>{
+            const Artiste = await this.artisteModel.findById(artisteid)
+        
+            if(!Artiste) throw new HttpException("artiste non trouvé", 404);
+        
+            let morceau = await this.morceauModel.findOne({ titre: createMorceauDto.titre });
+        
+            const Album = await this.albumModel.findById(albumId);
+            if (!Album) throw new HttpException("album non trouvé", 404);
+        
+            if (morceau) {
+                // Si le morceau existe déjà, on ajoute l'id de l'artiste au tableau artistes du morceau
+                if (!morceau.artistes.includes(artisteid)) {
+                    morceau.artistes.push(artisteid);
+                    morceau = await morceau.save();
+                }
+                // Ajoute le morceau à la liste des morceaux de l'artiste
+                if (!Artiste.morceaux.includes(morceau.id)) {
+                    await Artiste.updateOne({
+                        $push: {
+                            morceaux: morceau.id,
+                        },
+                    });
+                }
+                // Ajoute le morceau à la liste des morceaux de l'album
+                if (!Album.morceaux.includes(morceau.id)) {
+                    await Album.updateOne({
+                        $push: {
+                            morceaux: morceau.id,
+                        },
+                    });
+                }
+            } else {
+                // Si le morceau n'existe pas, créez un nouveau morceau
+                morceau = new this.morceauModel({...createMorceauDto, artistes: [artisteid]});
+                morceau = await morceau.save();
+        
+                await Artiste.updateOne({
+                    $push: {
+                        morceaux: morceau.id,
+                    },
+                });
+        
+                // Ajoute le nouveau morceau à la liste des morceaux de l'album
+                // await Album.updateOne({
+                //     $push: {
+                //         morceaux: morceau.id,
+                //     },
+                // });
+            }
+        
+            return morceau;
+        }
+
+        // async createMorceauforalbum(artisteid, albumId: mongoose.Types.ObjectId,  createMorceauDto: CreateMorceauDto): Promise<Morceau>{
+        //     const Artiste = await this.artisteModel.findById(artisteid)
+        
+        //     if(!Artiste) throw new HttpException("artiste non trouvé", 404);
+        
+        //     let morceau = await this.morceauModel.findOne({ titre: createMorceauDto.titre });
+        
+        //     if (morceau) {
+        //         // Si le morceau existe déjà, on ajoute l'id de l'artiste au tableau artistes du morceau
+        //         if (!morceau.artistes.includes(artisteid)) {
+        //             morceau.artistes.push(artisteid);
+        //             morceau = await morceau.save();
+        //         }
+        //         // Ajoute le morceau à la liste des morceaux de l'artiste
+        //         if (!Artiste.morceaux.includes(morceau.id)) {
+        //             await Artiste.updateOne({
+        //                 $push: {
+        //                     morceaux: morceau.id,
+        //                 },
+        //             });
+        //         }
+        //     } else {
+        //         // Si le morceau n'existe pas, créez un nouveau morceau
+        //         morceau = new this.morceauModel({...createMorceauDto, artistes: [artisteid]});
+        //         morceau = await morceau.save();
+        
+        //         await Artiste.updateOne({
+        //             $push: {
+        //                 morceaux: morceau.id,
+        //             },
+        //         });
+        //     }
+        
+        //     return morceau;
+        // }
 
        
-        async create(artisteid, createMorceauDto: CreateMorceauDto): Promise<Morceau>{
+        async create(artisteid,  createMorceauDto: CreateMorceauDto): Promise<Morceau>{
             const Artiste = await this.artisteModel.findById(artisteid)
         
             if(!Artiste) throw new HttpException("artiste non trouvé", 404);

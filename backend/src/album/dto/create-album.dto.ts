@@ -14,7 +14,4 @@ export class CreateAlbumDto{
     // @IsDate()
     readonly dateSortie: string;
 
-    // @IsString()
-    // @IsNotEmpty()
-    // artisteId: string;
 }

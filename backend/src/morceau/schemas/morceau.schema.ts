@@ -21,6 +21,9 @@ export class Morceau {
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Genre"})
     genre: mongoose.Types.ObjectId[];
 
+    @Prop({type: mongoose.Schema.Types.ObjectId, ref: "Album"})
+    album: mongoose.Types.ObjectId;
+
 }
 
 export const MorceauSchema = SchemaFactory.createForClass(Morceau)

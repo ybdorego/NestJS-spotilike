@@ -3,6 +3,8 @@ import { Body, Controller, Get, Param, Post,  Put,  UsePipes, ValidationPipe } f
 import { Album } from '../schemas/album.schema';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
+// import { CreateMorceauDto } from 'src/morceau/dto/create-morceau.dto';
+import { CreateAlbumwithMorDto } from '../dto/createAlbumwithMor.dto';
 
 @Controller('album')
 export class AlbumController {
@@ -30,10 +32,24 @@ export class AlbumController {
         return this.albumservice.create(idArtiste,album)
     }
 
+    // Création d'un album avec des morceaux
+    @Post('create-with-morceau/:idArtiste')
+    @UsePipes(new ValidationPipe)
+    async createAlbumAvecMorceau(
+        @Param('idArtiste') 
+        idArtiste: string,
+        @Body()
+        createAlbumDto: CreateAlbumwithMorDto,
+        // @Body('morceau')
+        // createMorceauDto: CreateMorceauDto[]
+    ): Promise<Album> { 
+        return this.albumservice.createAlbumAvecMorceau(idArtiste, createAlbumDto);
+    }
+
     // touvée l'album par son id 
     @Get(':id')
     async getAlbumById(
-        @Param('id') 
+        @Param('id')
         id: string
     ): Promise<Album> {
         return this.albumservice.findById(id);

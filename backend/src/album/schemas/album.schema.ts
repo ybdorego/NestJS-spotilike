@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from 'mongoose';
-// import mongoose from "mongoose";
+import { CreateMorceauDto } from "src/morceau/dto/create-morceau.dto";
 
 @Schema({
     timestamps: true
@@ -8,7 +8,7 @@ import mongoose, { Document } from 'mongoose';
 
 export class Album extends Document{
 
-    @Prop({ required: true })
+    @Prop({unique: [true, 'il y a deja un album a ce titre']})
     titre: string;
     
     @Prop({ required: true })
@@ -19,9 +19,9 @@ export class Album extends Document{
 
     @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Artiste'}])
     artiste: mongoose.Types.ObjectId[];
-
-    @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Morceau'}])
-    morceaux: mongoose.Types.ObjectId[];
+    
+    @Prop( [CreateMorceauDto])
+    morceaux: CreateMorceauDto[];
 
 }
 

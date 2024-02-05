@@ -15,6 +15,7 @@ import { AlbumSchema } from 'src/album/schemas/album.schema';
     {name : 'Genre', schema : GenreSchema}
   ])],
   controllers: [MorceauController],
-  providers: [MorceauService]
+  providers: [MorceauService],
+  exports: [MorceauService]
 })
 export class MorceauModule {}
