@@ -4,13 +4,13 @@ import { Genre } from '../schemas/genre.schema';
 import { CreateGenreDto } from '../dto/create-genre.dto';
 import { UpdateGenreDto } from '../dto/update-genre.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-
+@UseGuards(JwtAuthGuard)
 @Controller('genre')
 export class GenreController {
 
     constructor(private genreservice: GenreService) {
 	}
-    @UseGuards(JwtAuthGuard)
+
     @Get()
     async getallGenres(): Promise<Genre[]> {
         return this.genreservice.findAll();

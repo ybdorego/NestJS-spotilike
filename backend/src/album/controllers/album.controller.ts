@@ -1,11 +1,12 @@
 import { AlbumService } from './../album.service';
-import { Body, Controller, Get, Param, Post,  Put,  UsePipes, ValidationPipe } from '@nestjs/common';// Put,
+import { Body, Controller, Get, Param, Post,  Put,  UseGuards,  UsePipes, ValidationPipe } from '@nestjs/common';// Put,
 import { Album } from '../schemas/album.schema';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
 // import { CreateMorceauDto } from 'src/morceau/dto/create-morceau.dto';
 import { CreateAlbumwithMorDto } from '../dto/createAlbumwithMor.dto';
-
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+@UseGuards(JwtAuthGuard)
 @Controller('album')
 export class AlbumController {
 

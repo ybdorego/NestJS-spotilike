@@ -1,15 +1,17 @@
 import { ArtisteService } from '../artiste.service';
-import { Body, Controller, Delete, Get, Param, Post,Put,UsePipes, ValidationPipe } from '@nestjs/common';//Put,
+import { Body, Controller, Delete, Get, Param, Post,Put,UseGuards,UsePipes, ValidationPipe } from '@nestjs/common';//Put,
 import { Artiste } from '../schemas/artiste.schema';
 import { CreateArtisteDto } from '../dto/create-artiste.dto';
 import { UpdateArtisteDto } from '../dto/update-artiste.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('artiste')
 export class ArtisteController {
 
 
 	constructor(private artisteService: ArtisteService) {}
-
+    
     @Get()
     async getallartistes(): Promise<Artiste[]> {
         return this.artisteService.findAll();
