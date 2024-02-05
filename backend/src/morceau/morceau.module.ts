@@ -6,14 +6,18 @@ import { MorceauSchema } from './schemas/morceau.schema';
 import { GenreSchema } from 'src/genre/schemas/genre.schema';
 import { ArtistShema } from 'src/artiste/schemas/artiste.schema';
 import { AlbumSchema } from 'src/album/schemas/album.schema';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([
+  imports: [
+    AuthModule,
+    MongooseModule.forFeature([
     {name : 'Morceau', schema : MorceauSchema},
     {name : 'Artiste', schema : ArtistShema},
     {name : 'Album', schema : AlbumSchema},
     {name : 'Genre', schema : GenreSchema}
-  ])],
+  ])
+],
   controllers: [MorceauController],
   providers: [MorceauService],
   exports: [MorceauService]
