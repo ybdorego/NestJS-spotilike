@@ -12,8 +12,12 @@ export class GenreService {
         ) {}
 
 
-         // crée un genre mais avant verifier si li n'existe pas deja
-         
+        /**
+         * Crée un nouveau genre.
+         * @param genre - Les informations du genre à créer.
+         * @returns Une promesse résolue avec le genre créé.
+         * @throws {BadRequestException} Si un genre avec le même nom existe déjà.
+         */  
         async create(genre: Genre): Promise<Genre>{
             const existingGenre = await this.genreModel.findOne({ name: genre.titre });
 
@@ -25,7 +29,11 @@ export class GenreService {
             return res;
         }
 
-         // afficher tout les genres 
+         
+        /**
+         * Récupère tous les genres.
+         * @returns Une promesse qui se résout avec un tableau de genres.
+         */
          async findAll(): Promise<Genre[]>{
             const genres = await this.genreModel.find();
             return genres;
@@ -46,9 +54,14 @@ export class GenreService {
                     throw new NotFoundException('genre non trouvée')
             }
             return genre;
-        }
+        } 
 
-        // trouvé un genre par son id 
+        /**
+         * Recherche un genre par son nom.
+         * @param name - Le nom du genre à rechercher.
+         * @returns Une promesse résolue avec le genre correspondant.
+         * @throws {NotFoundException} Si le genre n'est pas trouvé.
+         */
         async findByName(name: string): Promise<Genre> {
             const genre = await this.genreModel.findOne({ name: name });
         
@@ -59,7 +72,16 @@ export class GenreService {
             return genre;
         }
        
-        // mise a jour du genre par son id 
+
+        
+        /**
+         * Met à jour un genre en utilisant son identifiant.
+         *
+         * @param id - L'identifiant du genre à mettre à jour.
+         * @param genre - Les nouvelles données du genre.
+         * @returns Une promesse qui se résout avec le genre mis à jour.
+         * @throws {NotFoundException} Si le genre n'est pas trouvé.
+         */
         async updateById(id: string, genre: Genre): Promise<Genre> {
             const existingGenre = await this.genreModel.findById(id);
             if (!existingGenre) {
@@ -76,8 +98,13 @@ export class GenreService {
         }
 
 
-        // supression d'un genre
-
+        /**
+         * Supprime un genre en utilisant son identifiant.
+         *
+         * @param id - L'identifiant du genre à supprimer.
+         * @returns Une promesse qui se résout avec le genre supprimé.
+         * @throws {NotFoundException} Si le genre n'est pas trouvé.
+         */
         async deleteById(id: string): Promise<Genre> {
             const deletedGenre = await this.genreModel.findByIdAndDelete(id);
         

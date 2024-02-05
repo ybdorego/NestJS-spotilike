@@ -17,8 +17,13 @@ export class GenreController {
     }
 
 
-    // creation d'un Genre
     @Post()
+    /**
+     * Crée un genre.
+     *
+     * @param genre - Les informations du genre à créer.
+     * @returns Une promesse résolue avec le genre créé.
+     */
     async createGenre(
         @Body()
         genre: CreateGenreDto
@@ -26,8 +31,13 @@ export class GenreController {
         return this.genreservice.create(genre)
     }
 
-    // touvée un Genre par son id 
     @Get(':id')
+    /**
+     * Récupère un genre par son identifiant.
+     *
+     * @param id - L'identifiant du genre.
+     * @returns Une promesse qui se résout avec le genre correspondant à l'identifiant donné.
+     */
     async getGenreById(
         @Param('id') 
         id: string
@@ -35,8 +45,14 @@ export class GenreController {
         return this.genreservice.findById(id);
     }
 
-    // mise a jours d'un genre par son id 
     @Put(':id')
+    /**
+     * Met à jour un genre.
+     *
+     * @param id - L'identifiant du genre à mettre à jour.
+     * @param genre - Les données de mise à jour du genre.
+     * @returns Une promesse qui se résout avec le genre mis à jour.
+     */
     async UpdateGenre(
         @Param('id') 
         id: string,
