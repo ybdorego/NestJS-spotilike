@@ -8,20 +8,33 @@ import { CreateAlbumwithMorDto } from '../dto/createAlbumwithMor.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('album')
+/**
+ * Controller class for managing albums.
+ */
 export class AlbumController {
 
 	constructor(private albumservice: AlbumService) {
 	}
 
 
-    // trouvé tous les albums
+    
+    /**
+     * Retrieves all albums.
+     * @returns A promise that resolves to an array of albums.
+     */
     @Get()
     async getallAlbums(): Promise<Album[]> {
         return this.albumservice.findAll();
     }
 
 
-    // creation de l'album par id artiste
+    /**
+     * Crée un nouvel album pour un artiste donné.
+     * 
+     * @param idArtiste - L'identifiant de l'artiste.
+     * @param album - Les informations de l'album à créer.
+     * @returns Une promesse qui se résout avec l'album créé.
+     */
     @Post('create/:idArtiste')
     @UsePipes(new ValidationPipe)
     async createAlbum(
@@ -33,7 +46,14 @@ export class AlbumController {
         return this.albumservice.create(idArtiste,album)
     }
 
-    // Création d'un album avec des morceaux
+    
+    /**
+     * Crée un album avec des morceaux.
+     *
+     * @param idArtiste - L'identifiant de l'artiste.
+     * @param createAlbumDto - Les données pour créer l'album avec les morceaux.
+     * @returns Une promesse qui se résout avec l'album créé.
+     */
     @Post('create-with-morceau/:idArtiste')
     @UsePipes(new ValidationPipe)
     async createAlbumAvecMorceau(
@@ -41,13 +61,17 @@ export class AlbumController {
         idArtiste: string,
         @Body()
         createAlbumDto: CreateAlbumwithMorDto,
-        // @Body('morceau')
-        // createMorceauDto: CreateMorceauDto[]
     ): Promise<Album> { 
         return this.albumservice.createAlbumAvecMorceau(idArtiste, createAlbumDto);
     }
 
-    // touvée l'album par son id 
+    
+    /**
+     * Récupère un album par son identifiant.
+     *
+     * @param id - L'identifiant de l'album.
+     * @returns Une promesse qui se résout avec l'album correspondant à l'identifiant donné.
+     */
     @Get(':id')
     async getAlbumById(
         @Param('id')
@@ -56,7 +80,13 @@ export class AlbumController {
         return this.albumservice.findById(id);
     }
 
-    // affiche les album d'un artiste grace a son id 
+    
+    /**
+     * Récupère les albums d'un artiste en fonction de son identifiant.
+     *
+     * @param idArtiste L'identifiant de l'artiste.
+     * @returns Une promesse qui se résout avec un tableau d'objets Album.
+     */
     @Get('album/:idArtiste')
     async getArtisteAlbumByIdartiste(
         @Param('idArtiste') 
@@ -65,7 +95,14 @@ export class AlbumController {
         return this.albumservice.findAlbumsByArtisteId(idArtiste);
     }
 
-    // mise a jours de l'album par son id 
+    
+    /**
+     * Met à jour un album.
+     *
+     * @param id - L'identifiant de l'album à mettre à jour.
+     * @param album - Les données de l'album à mettre à jour.
+     * @returns Une promesse résolue avec l'album mis à jour.
+     */
     @Put(':id')
     async UpdateAlbum(
         @Param('id') 
