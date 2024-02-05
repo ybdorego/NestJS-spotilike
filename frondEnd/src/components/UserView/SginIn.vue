@@ -10,12 +10,12 @@
       </div>
      
       <div class="container">
-        <label for="email"><b>E-mail : </b></label>
-        <Field name="email" type="text" class="form-control" />
+        <label for="email">E-mail : </label>
+        <Field v-model="email" type="text" class="form-control" />
         <ErrorMessage name="email" class="error-feedback" />
 
         <label for="password"><b>Password : </b></label>
-        <Field name="password" type="password" class="form-control" />
+        <Field  v-model="password" type="password" class="form-control" />
         <ErrorMessage name="password" class="error-feedback" />
 
         <button class="btn btn-primary btn-block" :disabled="loading">
@@ -47,6 +47,8 @@ export default {
     });
 
     return {
+      email: "",
+      password: "",
       loading: false,
       message: "",
       schema,
@@ -93,6 +95,14 @@ export default {
 .titre{
   text-align: center;
   margin-right: 30%;
+}
+label {
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  color: white;
 }
 
 form {

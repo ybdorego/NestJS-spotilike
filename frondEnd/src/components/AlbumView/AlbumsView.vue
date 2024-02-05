@@ -58,7 +58,7 @@
   
       const getAlbums = async (id) => {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/album/${id}`);
+          const response = await axios.get(`http://127.0.0.1:300/album/${id}`);
           albums.value = response.data;
         } catch (error) {
           console.error(error);
