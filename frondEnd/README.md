@@ -14,6 +14,12 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ```sh
 npm install
+npm install vue-router
+npm install vuex
+npm install vee-validate@2.2.15
+npm install axios
+npm install bootstrap jquery popper.js
+npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons
 ```
 
 ### Compile and Hot-Reload for Development

@@ -15,10 +15,6 @@
           <Field name="nom" type="text" class="form-control" />
           <ErrorMessage name="nom" class="error-feedback" />
 
-          <label for="prenom"><b>Prénom: </b></label>
-          <Field name="prenom" type="text" class="form-control" />
-          <ErrorMessage name="prenom" class="error-feedback" />
-
           <label for="email"><b>E-mail : </b></label>
           <Field name="email" type="text" class="form-control" />
           <ErrorMessage name="email" class="error-feedback" />
@@ -29,8 +25,8 @@
   
           <button class="btn btn-primary btn-block" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Inscri</span>
-          </button>
+            <span>Inscription</span>
+          </button>o
         </div>
         <button type="button" class="cancelbtn">Cancel</button>
         <span class="psw">Vous avez un compte connceterz vous :   <router-link to="/">login</router-link></span>

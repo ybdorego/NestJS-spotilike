@@ -1,3 +1,6 @@
+/**
+ * Component for displaying artist details and albums.
+ */
 <template>
     <div>
       <Header />
@@ -81,6 +84,10 @@
       this.getArtist(this.$route.query.id);
     },
     methods: {
+      /**
+       * Fetches artist details from the API.
+       * @param {number} id - The ID of the artist.
+       */
       getArtist(id) {
         axios
           .get(`http://127.0.0.1:8000/api/artiste/${id}`)
