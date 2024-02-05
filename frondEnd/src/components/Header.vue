@@ -6,7 +6,7 @@
         <div class="user-dropdown">
           <span>
             <img width="50" src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" alt="icon"/>
-            {{currentUser.email}} 
+            <!--{{currentUser.email}} -->
           </span>
           <div class="dropdown-content">
             <router-link to="/profile">Profile</router-link>
@@ -42,7 +42,7 @@ export default {
       
     };
   },
-  computed: {
+ /* computed: {
     currentUser() {
       return this.$store.state.auth.user ? this.$store.state.auth.user.email : '';
     },
@@ -60,7 +60,7 @@ export default {
     if (!this.currentUser) {
       this.$router.push('/');
     }
-  },
+  },*/
 };
 </script>
 

@@ -30,12 +30,11 @@ const routes = [
     },
     {
         path: '/albums',
-        name: 'albums',
         component: Albums
     },
     {
         path: '/albums/:id',
-        name: 'albums',
+     
         component: AlbumsView
     },
     {
@@ -44,12 +43,10 @@ const routes = [
       },
     {
         path: '/artiste',
-        name: 'artiste',
         component: Artiste
     },
-     {
+    {
          path: '/artiste/:id',
-         name: 'artiste',
          component: ArtistView
     },
     {

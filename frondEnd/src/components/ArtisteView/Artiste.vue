@@ -1,3 +1,13 @@
+/**
+ * Component: Artiste
+ * Description: This component displays a list of artists with their avatars, names, and biographies.
+ * Props:
+ *   - artistes: An array of artist objects containing avatar, name, and biography.
+ * Methods:
+ *   - getArtist: Fetches the list of artists from the API.
+ * Computed Properties:
+ *   - rows: Returns the number of artists in the list.
+ */
 <template>
     <Header />
     <h1>Liste Artiste</h1>
@@ -5,9 +15,10 @@
         <div class="row" v-for="artiste in artistes">
             <div class="card">
                 <div class="wrapper">
-                    {{ artiste.image }}
+                    {{ artiste.avatar }}
                 </div>
                 <h1>{{ artiste.nom }}</h1>
+                <h1>{{ artiste.biographie }}</h1>
                 <router-link tag="li" to="/artiste/:id">
                     <a>Détail</a>
                 </router-link>
