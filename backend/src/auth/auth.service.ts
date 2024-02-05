@@ -59,6 +59,22 @@ export class AuthService {
         return { token };
 
 }
+
+    /**
+     * Deletes a user by their ID.
+     * @param userId - The ID of the user to delete.
+     * @returns A promise that resolves to a boolean indicating whether the user was successfully deleted.
+     */
+    async deleteUser(userId: string): Promise<boolean> {
+        const deletedUser = await this.userModel.findByIdAndDelete(userId);
+        return !!deletedUser;
+    }
+
+
+
+
+
+
 }
 
 

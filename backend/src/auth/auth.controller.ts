@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
@@ -34,5 +34,18 @@ export class AuthController {
         @Body() loginDto: LoginDto
         ): Promise<{token: string }>{
         return await this.authService.login(loginDto)
+    }
+
+
+    @Delete('/api/users/:id')
+    /**
+     * Deletes a user by ID.
+     * @param id - The ID of the user to delete.
+     * @returns A promise that resolves to a message indicating the success of the deletion.
+     */
+    async deleteUser(@Param('id') id: string
+        ): Promise<{ message: string }> {
+        await this.authService.deleteUser(id);
+        return { message: 'User deleted successfully' };
     }
 }
