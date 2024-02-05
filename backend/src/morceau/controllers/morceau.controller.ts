@@ -12,16 +12,26 @@ export class MorceauController {
 	}
 
     
-     // get tous les morceau
     @Get()
+    /**
+     * Récupère tous les morceaux.
+     * @returns Une promesse qui se résout avec un tableau de Morceau.
+     */
     async getallMorceau(): Promise<Morceau[]> {
         return this.morceauService.findAll();
     }
 
 
     // creation d'un Morceau
-    @Post(':idArtiste')
+    @Post('CreateArtiste/:idArtiste')
     @UsePipes(new ValidationPipe)
+    /**
+     * Crée un nouvel album.
+     * 
+     * @param idArtiste - L'identifiant de l'artiste.
+     * @param morceau - Les informations du morceau à créer.
+     * @returns Une promesse résolue avec le morceau créé.
+     */
     async createAlbum(
         @Param('idArtiste') 
         idArtiste: string,
@@ -31,8 +41,14 @@ export class MorceauController {
         return this.morceauService.create(idArtiste,morceau)
     }
 
-    // touvée un morceau par son id 
+
     @Get(':id')
+    /**
+     * Récupère un morceau par son identifiant.
+     *
+     * @param id - L'identifiant du morceau.
+     * @returns Une promesse résolue avec le morceau correspondant à l'identifiant.
+     */
     async getMorceauById(
         @Param('id') 
         id: string
@@ -40,8 +56,15 @@ export class MorceauController {
         return this.morceauService.findById(id);
     }
 
-    // mise a jours d'un morceau par son id 
+    
     @Put(':id')
+    /**
+     * Met à jour un morceau.
+     *
+     * @param id - L'identifiant du morceau à mettre à jour.
+     * @param morceau - Les données de mise à jour du morceau.
+     * @returns Une promesse résolue avec le morceau mis à jour.
+     */
     async UpdateMorceau(
         @Param('id') 
         id: string,
@@ -50,4 +73,9 @@ export class MorceauController {
     ): Promise<Morceau> {
         return this.morceauService.updateById(id, morceau)
     }
+
+
+
+
+    
 }
