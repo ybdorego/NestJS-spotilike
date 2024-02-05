@@ -1,37 +1,30 @@
 <template>
-  <div class="container">
-    <form name="form" @submit.prevent="handleLogin" :validation-schema="schema">
-      <div class="imgcontainer">
-        <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/8385659-spotify-social-media-icon-logo-abstract-symbol-illustration-gratuit-vectoriel.jpg" alt="Avatar" class="avatar" />
-        
-      </div>
-      <div class="titre">
-        <h1>Connexion</h1>
-      </div>
-     
-      <div class="container">
-        <label for="email"><b>E-mail : </b></label>
-        <Field name="email" type="text" class="form-control" />
-        <ErrorMessage name="email" class="error-feedback" />
+  <!-- ... -->
+  <form name="form" @submit.prevent="handleLogin">
+    <!-- ... -->
+    <div class="container">
+      <label for="email"><b>E-mail : </b></label>
+      <input v-model="user.email" name="email" type="text" class="form-control" />
+      <!-- ... -->
 
-        <label for="password"><b>Password : </b></label>
-        <Field name="password" type="password" class="form-control" />
-        <ErrorMessage name="password" class="error-feedback" />
+      <label for="password"><b>Password : </b></label>
+      <input v-model="user.password" name="password" type="password" class="form-control" />
+      <!-- ... -->
 
-        <button class="btn btn-primary btn-block" :disabled="loading">
-          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-          <span>Login</span>
-        </button>
-      </div>
-      <button type="button" class="cancelbtn">Cancel</button>
-      <span class="psw">Créer votre compte   <router-link to="/register">Inscription</router-link></span>
-    </form>
-  </div>
+      <button class="btn btn-primary btn-block" :disabled="loading">
+        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+        <span>Login</span>
+      </button>
+    </div>
+    <!-- ... -->
+  </form>
+  <!-- ... -->
 </template>
 
 <script>
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
+import axios from 'axios'; // Import axios
 
 export default {
   name: "Login",
@@ -57,34 +50,23 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     },
   },
-  created() {
-    if (this.loggedIn) {
-      this.$router.push("/profile");
-    }
-  },
   methods: {
     handleLogin() {
       this.loading = true;
-
-      this.$store.dispatch('auth/login', {
+      axios.post('http://localhost:3000/auth/api/login', {
         email: this.email,
-        password: this.password,
-      }).then(
-        () => {
-          this.$router.push('/home');
-        },
-        (error) => {
-          this.loading = false;
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-    },
-  },
+        password: this.password
+      })
+      .then(response => {
+        this.$router.push({ name: 'home' }); // Redirige vers la page d'accueil en cas de succès
+        this.loading = false;
+      })
+      .catch(error => {
+        console.log(error);
+        this.loading = false;
+      });
+    }
+  }
 };
 </script>
 
