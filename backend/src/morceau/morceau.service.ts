@@ -42,29 +42,23 @@ export class MorceauService {
                 }
                 // Ajoute le morceau à la liste des morceaux de l'album
                 if (!Album.morceaux.includes(morceau.id)) {
-                    await Album.updateOne({
-                        $push: {
-                            morceaux: morceau.id,
-                        },
-                    });
+                    // await Album.updateOne({
+                    //     $push: {
+                    //         morceaux: morceau.id,
+                    //     },
+                    // });
                 }
             } else {
                 // Si le morceau n'existe pas, créez un nouveau morceau
                 morceau = new this.morceauModel({...createMorceauDto, artistes: [artisteid]});
                 morceau = await morceau.save();
+                
         
                 await Artiste.updateOne({
                     $push: {
                         morceaux: morceau.id,
                     },
                 });
-        
-                // Ajoute le nouveau morceau à la liste des morceaux de l'album
-                // await Album.updateOne({
-                //     $push: {
-                //         morceaux: morceau.id,
-                //     },
-                // });
             }
         
             return morceau;

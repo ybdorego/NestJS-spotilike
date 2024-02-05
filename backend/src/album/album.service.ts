@@ -20,8 +20,15 @@ export class AlbumService {
         private morceauService: MorceauService,
         ) {}
 
-
-        //  crée un album 
+        
+        /**
+         * Crée un nouvel album.
+         * 
+         * @param artisteid - L'ID de l'artiste associé à l'album.
+         * @param createAlbumDto - Les données pour créer l'album.
+         * @returns Une promesse qui se résout à l'album créé.
+         * @throws HttpException si l'album existe déjà ou si l'artiste n'est pas trouvé.
+         */
         async create(artisteid, createAlbumDto: CreateAlbumDto): Promise<Album>{
             const existingAlbum = await this.albumModel.findOne({ titre: createAlbumDto.titre });
             
@@ -44,8 +51,16 @@ export class AlbumService {
             return saveAlbum;
         }
 
+        /**
+         * Crée un nouvel album avec des morceaux pour un artiste donné.
+         * 
+         * @param idArtiste - L'identifiant de l'artiste.
+         * @param createAlbumDto - Les données pour créer l'album avec les morceaux.
+         * @returns Une promesse résolue avec l'objet Album créé.
+         * @throws HttpException si l'album existe déjà.
+         * @throws NotFoundException si l'artiste n'est pas trouvé.
+         */
         async createAlbumAvecMorceau(idArtiste: string, createAlbumDto: CreateAlbumwithMorDto): Promise<Album> {
-           
             const existingAlbum = await this.albumModel.findOne({ titre: createAlbumDto.titre });
             
             if (existingAlbum) {
@@ -57,68 +72,77 @@ export class AlbumService {
             if (!artiste) {
                 throw new NotFoundException('Artiste non trouvé');
             }
+            
+            
             const album = new this.albumModel(createAlbumDto);
-
             album.artiste = artiste._id;
+            
+            await artiste.updateOne({
+                $push: {
+                    albums: album.id,
+                },
+            })
 
-            album.save()
+            await album.save();
+
             // Créer chaque morceau
             for (const createMorceauDto of createAlbumDto.morceaux) {
-                console.log(album._id);
-                await this.morceauService.createMorceauforalbum(artiste._id, album._id, createMorceauDto);
+                const morceau: any = await this.morceauService.createMorceauforalbum(artiste._id, album._id, createMorceauDto);
+                morceau.album = album._id; // Assign the ID of the album to the morceau
+                await morceau.save();
             }
-        
+
+            
             return album;
         }
 
-        // // fonction qui cree un album et des morceau pour un artiste
-        // async createAlbumAvecMorceau(artisteId: string, createAlbumDto: CreateAlbumDto, morceaux: CreateMorceauDto[]): Promise<Album> {
-        //     const existingAlbum = await this.albumModel.findOne({ titre: createAlbumDto.titre });
-        //     if (existingAlbum) {
-        //         throw new HttpException("L'album existe déjà", 400);
-        //     }
+        
+        /**
+         * Récupère les morceaux associés à un ID d'album donné.
+         * @param albumId - L'ID de l'album.
+         * @returns Une promesse qui se résout en un tableau d'objets Morceau.
+         * @throws NotFoundException si l'album n'est pas trouvé.
+         */
+        async findMorceauxByAlbumId(albumId: string): Promise<Morceau[]> {
+            const album = await this.albumModel.findById(albumId);
+            
+            if (!album) {
+                throw new NotFoundException('Album non trouvé');
+            }
+            
+            const morceaux = await this.morceauModel.find({ album: albumId });
+            return morceaux;
+        }
 
-        //     const artiste = await this.artisteModel.findById(artisteId);
-        //     if (!artiste) {
-        //         throw new HttpException("Artiste non trouvé", 404);
-        //     }
-
-        //     const { ObjectId } = mongoose.Types;
-
-        //     const newAlbum = new this.albumModel({ ...createAlbumDto, artiste: artisteId });
-        //     const savedAlbum = await newAlbum.save();
-
-        //     const morceauPromises = morceaux.map(async (morceau) => {
-        //         const newMorceau = new this.morceauModel({ ...morceau, album: savedAlbum._id, artiste: artisteId });
-        //         const savedMorceau = await newMorceau.save();
-        //         savedAlbum.morceaux.push(savedMorceau._id);
-        //         savedMorceau.artistes.push(ObjectId.createFromHexString(artisteId));
-        //         await savedMorceau.save();
-        //     });
-
-        //     await Promise.all(morceauPromises);
-        //     await savedAlbum.save();
-
-        //     artiste.albums.push(savedAlbum._id);
-        //     await artiste.save();
-
-        //     return savedAlbum;
-        // }
-
-        // afficher tout les albums 
+        
+        /**
+         * Récupère tous les albums de la base de données.
+         * @returns Une promesse qui se résout avec un tableau d'albums.
+         */
         async findAll(): Promise<Album[]>{
             const albums = await this.albumModel.find();
             return albums;
         }
 
-        // afficher le ou les album d'un artiste grace a son idartiste 
+        /**
+         * Récupère tous les albums d'un artiste donné.
+         * 
+         * @param artisteId - L'identifiant de l'artiste.
+         * @returns Une promesse qui se résout avec un tableau d'albums.
+         */
         async findAlbumsByArtisteId(artisteId: string): Promise<Album[]> {
             const albums = await this.albumModel.find({ artiste: artisteId });
             return albums;
         }
 
-        
-        // trouvé l'album par son id
+        /**
+         * Récupère un album par son identifiant.
+         * 
+         * @param id - L'identifiant de l'album.
+         * @returns Une promesse qui se résout avec l'album trouvé.
+         * @throws BadRequestException si l'identifiant n'est pas valide.
+         * @throws NotFoundException si l'album n'est pas trouvé.
+         */
         async findById(id: string): Promise<Album>{
 
             const isvalid = mongoose.isValidObjectId(id)
@@ -135,7 +159,15 @@ export class AlbumService {
             return album;
         }
 
-        // maj de l'album par son id
+        
+        /**
+         * Met à jour un album en utilisant son identifiant.
+         *
+         * @param id - L'identifiant de l'album à mettre à jour.
+         * @param album - Les nouvelles données de l'album.
+         * @returns Une promesse résolue avec l'album mis à jour.
+         * @throws {NotFoundException} Si l'album n'est pas trouvé.
+         */
         async updateById(id: string, album: UpdateAlbumDto): Promise<Album> {
             const existingAlbum = await this.albumModel.findById(id);
             if (!existingAlbum) {
@@ -151,5 +183,36 @@ export class AlbumService {
             return updatedAlbum;
         }
 
+        /**
+         * Supprime un album et tous ses morceaux.
+         *
+         * @param id - L'ID de l'album à supprimer.
+         * @returns Une promesse résolue une fois que l'album et tous ses morceaux ont été supprimés.
+         * @throws {NotFoundException} Si l'album n'est pas trouvé.
+         */
+        async deleteAlbumById(id: string): Promise<void> {
+            const existingAlbum = await this.albumModel.findById(id);
+            if (!existingAlbum) {
+                throw new NotFoundException('Album non trouvé');
+            }
+        
+            // Obtenir les identifiants des morceaux associés à l'album
+            const morceaux = await this.morceauModel.find({ album: id });
+            const morceauIds = morceaux.map(morceau => morceau._id);
+        
+            // Supprimer tous les morceaux associés à l'album
+            await this.morceauModel.deleteMany({ album: id });
+        
+            // Retirer ces morceaux de la liste des morceaux de chaque artiste
+            for (const artistId of existingAlbum.artiste) {
+                const artist = await this.artisteModel.findById(artistId);
+                if (artist) {
+                    artist.morceaux = artist.morceaux.filter(morceauId => !morceauIds.includes(morceauId));
+                    await artist.save();
+                }
+            }
+            // Supprimer l'album
+            await this.albumModel.deleteOne({ _id: id });
+        }
 
 }

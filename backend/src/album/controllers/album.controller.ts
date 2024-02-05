@@ -1,11 +1,11 @@
 import { AlbumService } from './../album.service';
-import { Body, Controller, Get, Param, Post,  Put,  UseGuards,  UsePipes, ValidationPipe } from '@nestjs/common';// Put,
+import { Body, Controller, Delete, Get, Param, Post,  Put,  UseGuards,  UsePipes, ValidationPipe } from '@nestjs/common';// Put,
 import { Album } from '../schemas/album.schema';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
-// import { CreateMorceauDto } from 'src/morceau/dto/create-morceau.dto';
 import { CreateAlbumwithMorDto } from '../dto/createAlbumwithMor.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Morceau } from 'src/morceau/schemas/morceau.schema';
 @UseGuards(JwtAuthGuard)
 @Controller('album')
 /**
@@ -19,7 +19,7 @@ export class AlbumController {
 
     
     /**
-     * Retrieves all albums.
+     * Récupère la liste de tous les albums
      * @returns A promise that resolves to an array of albums.
      */
     @Get()
@@ -54,7 +54,7 @@ export class AlbumController {
      * @param createAlbumDto - Les données pour créer l'album avec les morceaux.
      * @returns Une promesse qui se résout avec l'album créé.
      */
-    @Post('create-with-morceau/:idArtiste')
+    @Post('create-Album-morceau/:idArtiste')
     @UsePipes(new ValidationPipe)
     async createAlbumAvecMorceau(
         @Param('idArtiste') 
@@ -93,7 +93,29 @@ export class AlbumController {
         idArtiste: string
     ): Promise<Album[]> {
         return this.albumservice.findAlbumsByArtisteId(idArtiste);
+    } 
+
+    /**
+     * Récupère les morceaux d'un album en fonction de son identifiant.
+     *
+     * @param idAlbum - L'identifiant de l'album.
+     * @returns Une promesse qui se résout avec un tableau d'objets Morceau.
+     */
+    @Get('morceaux/:idAlbum')
+    async findMorceauxByAlbumId(
+        @Param('idAlbum')
+        idAlbum: string
+    ): Promise<Morceau[]> {
+        return this.albumservice.findMorceauxByAlbumId(idAlbum);
     }
+
+
+
+
+
+
+
+    
 
     
     /**
@@ -111,6 +133,20 @@ export class AlbumController {
         album: UpdateAlbumDto
     ): Promise<Album> {
         return this.albumservice.updateById(id, album)
+    }
+
+    /**
+     * Supprime un album par son identifiant.
+     *
+     * @param id - L'identifiant de l'album à supprimer.
+     * @returns Une promesse qui se résout avec l'album supprimé.
+     */
+    @Delete(':id')
+    async deleteAlbumById(
+        @Param('id')
+        id: string
+    ): Promise<void> {
+        await this.albumservice.deleteAlbumById(id);
     }
 
 }
