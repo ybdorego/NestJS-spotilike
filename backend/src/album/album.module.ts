@@ -8,14 +8,19 @@ import { AlbumSchema } from './schemas/album.schema';
 import { ArtistShema } from 'src/artiste/schemas/artiste.schema';
 import { MorceauSchema } from 'src/morceau/schemas/morceau.schema';
 import { MorceauModule } from 'src/morceau/morceau.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([
+  imports: [
+    AuthModule,
+    MorceauModule,
+    MongooseModule.forFeature([
     {name : 'Album', schema : AlbumSchema},
     {name : 'Artiste', schema : ArtistShema},
     {name : 'Morceau', schema : MorceauSchema}
   
-  ]), MorceauModule],
+  ]), 
+],
   controllers: [AlbumController],
   providers: [AlbumService]
 })

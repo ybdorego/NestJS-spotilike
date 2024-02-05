@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt'; // Fix: Import the correct module '@ne
 import { User } from './schemas/user.schemas';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
@@ -14,6 +14,11 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
+    /**
+     * Creates a new user account and returns a JWT token.
+     * @param signUpDto - The sign up data including name, email, and password.
+     * @returns A promise that resolves to an object containing the JWT token.
+     */
     async signUp(signUpDto): Promise<{token: string}> {
         const { nom, email, password } = signUpDto;
 
@@ -29,6 +34,11 @@ export class AuthService {
         return { token };
     }
 
+    /**
+     * Logs in a user and returns a JWT token.
+     * @param loginDto - The login data including email and password.
+     * @returns A promise that resolves to an object containing the JWT token.
+     */
     async login(loginDto: LoginDto): Promise<{token: string}> {
         const { email, password } = loginDto;
 

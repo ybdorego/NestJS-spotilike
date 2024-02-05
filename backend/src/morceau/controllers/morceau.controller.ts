@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MorceauService } from '../morceau.service';
 import { CreateMorceauDto } from '../dto/create-morceau.dto';
 import { Morceau } from '../schemas/morceau.schema';
 import { UpdateMorceauDto } from '../dto/update-morceau.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('morceau')
 export class MorceauController {
@@ -10,6 +11,7 @@ export class MorceauController {
     constructor(private morceauService: MorceauService) {
 	}
 
+    @UseGuards(JwtAuthGuard)
      // get tous les morceau
     @Get()
     async getallMorceau(): Promise<Morceau[]> {

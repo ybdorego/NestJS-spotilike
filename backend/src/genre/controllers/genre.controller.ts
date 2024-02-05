@@ -1,15 +1,16 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { GenreService } from '../genre.service';
 import { Genre } from '../schemas/genre.schema';
 import { CreateGenreDto } from '../dto/create-genre.dto';
 import { UpdateGenreDto } from '../dto/update-genre.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('genre')
 export class GenreController {
 
     constructor(private genreservice: GenreService) {
 	}
-
+    @UseGuards(JwtAuthGuard)
     @Get()
     async getallGenres(): Promise<Genre[]> {
         return this.genreservice.findAll();
