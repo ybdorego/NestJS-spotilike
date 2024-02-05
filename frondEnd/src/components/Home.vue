@@ -35,7 +35,7 @@
       content: ''
     };
   },
-  mounted() {
+ mounted() {
     UserService.getPublicContent().then(
       response => {
         this.content = response.data;

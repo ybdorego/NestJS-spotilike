@@ -1,54 +1,78 @@
 <template>
-    <h1> Page Album </h1>
-    <div class="panel panel-primary">
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">test</th>
-                    <th scope="col">test</th>
-                    <th scope="col">test</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="album in albums ">
-                    <td>{{ album.test }}</td>
-                    <td>{{ album.test }}</td>
-                    <td>{{ album.test }}</td>
-                </tr>
-            </tbody>
+    <div>
+      <Header />
+  
+      <h1>Page Album</h1>
+      <div class="panel panel-primary">
+        <div class="row mb-2" v-for="album in albums" :key="album.id">
+          <div class="col-md-6">
+            <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+              <div class="card-body d-flex flex-column align-items-start">
+                <strong class="d-inline-block mb-2 text-primary">{{ album.titre }}</strong>
+                <div class="mb-1 text-muted">{{ album.dateSortie }}</div>
+                <h3 class="mb-0">{{ album.artist.titre }}</h3>
+              </div>
+              <img
+                v-if="album.pochette"
+                class="bd-placeholder-img card-img-right flex-auto d-none d-lg-block"
+                width="200"
+                height="250"
+                :src="album.pochette"
+                alt="Album Cover"
+              />
+            </div>
+          </div>
+        </div>
+  
+        <table class="table table-bordered" v-if="albums && albums.morceaux">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Titre</th>
+              <th scope="col">Durée</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="morceau in albums.morceaux" :key="morceau.id">
+              <td>{{ morceau.titre }}</td>
+              <td>{{ morceau.duree }}</td>
+            </tr>
+          </tbody>
         </table>
-        <td><router-link class="btn btn-primary" to="albums">Retour</router-link></td>
+  
+        <router-link class="btn btn-primary" :to="{ name: 'albums' }">Retour</router-link>
+      </div>
     </div>
-</template>
-<script>
-import Header from "@/components/Header.vue";
-import axios from "axios";
-export default {
+  </template>
+  
+  <script>
+  import { ref, onMounted } from "vue";
+  import Header from "@/components/Header.vue";
+  import axios from "axios";
+  
+  export default {
     components: {
-        Header, // N'oubliez pas d'enregistrer le composant dans la section 'components'
+      Header,
     },
-    props: {
-        albums: Array,
-
-    },
-    mounted() {
-        this.getAlbums(this.$route.query)
-    },
-    methods: {
-        getAlbums(id) {
-            axios.get(`http://127.0.0.1:8000/album`, { id })
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+    setup() {
+      const albums = ref([]);
+  
+      const getAlbums = async (id) => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/album/${id}`);
+          albums.value = response.data;
+        } catch (error) {
+          console.error(error);
         }
-    }
-}
-
-
-
-
-</script>
-<style></style>
+      };
+  
+      onMounted(() => {
+        getAlbums();
+      });
+  
+      return { albums, getAlbums };
+    },
+  };
+  </script>
+  
+  <style></style>
+  

@@ -5,9 +5,10 @@
         <div class="row" v-for="artiste in artistes">
             <div class="card">
                 <div class="wrapper">
-                    {{ artiste.image }}
+                    {{ artiste.avatar }}
                 </div>
                 <h1>{{ artiste.nom }}</h1>
+                <h1>{{ artiste.biographie }}</h1>
                 <router-link tag="li" to="/artiste/:id">
                     <a>Détail</a>
                 </router-link>
