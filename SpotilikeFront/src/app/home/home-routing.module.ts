@@ -7,9 +7,9 @@ const routes: Routes = [
 {
   path: '',component: LayoutComponent,children: [
 
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: '', redirectTo: 'index', pathMatch: 'full' },
 
-    { path: 'home',component: IndexComponent},
+    { path: 'index',component: IndexComponent},
 
     { path: 'album', loadChildren: ()=>import('./album/album.module')
         .then(m=>m.AlbumModule)},
