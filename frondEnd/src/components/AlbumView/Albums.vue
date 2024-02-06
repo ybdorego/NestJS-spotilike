@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     getAlbums() {
-      let url = "http://127.0.0.1:8000/api/albums";
+      let url = "http://127.0.0.1:3000/album";
       axios.get(url).then((response) => {
         this.albums = response.data['hydra:member'];
         console.log(this.albums);

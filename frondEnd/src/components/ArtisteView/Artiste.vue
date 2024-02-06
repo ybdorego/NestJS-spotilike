@@ -51,9 +51,11 @@ export default {
             axios.get(url).then((response) => {
                 this.artistes = response.data['hydra:member'];
                 console.log(this.artistes);
+                console.log(artistes)
             }).catch(error => {
                 console.log(error);
             });
+            
         },
 
         computed: {

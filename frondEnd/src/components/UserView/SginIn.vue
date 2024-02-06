@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form name="form" @submit.prevent="handleLogin" >
+    <form @submit.prevent="handleLogin" :validation-schema="schema">
       <div class="imgcontainer">
         <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/8385659-spotify-social-media-icon-logo-abstract-symbol-illustration-gratuit-vectoriel.jpg" alt="Avatar" class="avatar" />
       </div>
@@ -9,11 +9,11 @@
       </div>
       <div class="container">
         <label for="email">E-mail : </label>
-        <input v-model="email" name="email" type="text" class="form-control" />
+        <Field name="email" type="text" class="form-control" v-model="email" />
         <ErrorMessage name="email" class="error-feedback" />
         
         <label for="password"><b>Password : </b></label>
-        <input v-model="password" name="password" type="password" class="form-control" />
+        <Field name="password" type="password" class="form-control" v-model="password"/>
         <ErrorMessage name="password" class="error-feedback" />
         
         <button class="btn btn-primary btn-block" :disabled="loading">
@@ -30,6 +30,7 @@
 <script>
 import { Field, ErrorMessage } from "vee-validate";
 import AuthService from "../service/auth.service";
+import * as yup from "yup";
 
 export default {
   name: "Login",
@@ -38,33 +39,36 @@ export default {
     ErrorMessage,
   },
   data() {
+    const schema = yup.object().shape({
+      email: yup.string().required("Email is required!").email("Invalid email format!"),
+      password: yup.string().required("Password is required!"),
+    });
+
     return {
       loading: false,
-      message: "",
       email: '',
       password: '',
+      schema,
     };
   },
   methods: {
     handleLogin() {
       this.loading = true;
-
-      const user = { email: this.email, password: this.password };
-
-      AuthService.login(user)
+      AuthService.login({ email: this.email, password: this.password })
         .then(() => {
+          // Redirection après une connexion réussie
           this.$router.push("/home");
         })
-        console.log(user)
         .catch(error => {
+          this.errorMessage = error.message || "Une erreur s'est produite lors de la connexion.";
+        })
+        .finally(() => {
           this.loading = false;
-          this.message = error.response.data.message || error.message || error.toString();
         });
     },
   },
 };
 </script>
-
 <style>
 .titre{
   text-align: center;

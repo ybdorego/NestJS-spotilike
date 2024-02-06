@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const API_URL_SigIn = 'http://localhost:3000/auth/api/';
+
 
 class AuthService {
   login(user) {
     console.log(user);
     return axios
-      .get(API_URL_SigIn + 'login', {
+      .post(' http://localhost:3000/auth/api/login', {
         email: user.email,
         password: user.password
       })
@@ -19,18 +19,24 @@ class AuthService {
       });
   }
 
-  signUp(user) {
+  signup(user) {
     return axios
-      .post(API_URL_SigIn + 'signup', {
+      .post('http://localhost:3000/auth/api/signup', { // Correction de l'URL d'inscription
+        nom: user.nom, // Ajout de l'attribut nom dans les données envoyées
         email: user.email,
         password: user.password
       })
       .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+        // Vérifiez si la réponse contient un token
+        if (response.data.token) {
+          // Stocker le token dans le stockage local
+          localStorage.setItem('token', response.data.token);
         }
-
         return response.data;
+      })
+      .catch(error => {
+        // En cas d'erreur, renvoyez l'erreur pour qu'elle soit traitée au niveau du composant Vue
+        throw error;
       });
   }
 
