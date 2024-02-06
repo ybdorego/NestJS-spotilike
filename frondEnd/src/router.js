@@ -21,21 +21,26 @@ const routes = [
     {
         path: '/home',
         name: 'home',
-        component: Home
-    },
-    {
-        path: '/SginUp',
-        name: 'SginUp',
-        component: SginUp
+        component: Home,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: '/albums',
-        component: Albums
+        component: Albums, 
+        meta: {
+            requiresAuth: true
+          }
+
     },
     {
         path: '/albums/:id',
      
-        component: AlbumsView
+        component: AlbumsView,
+        meta: {
+        requiresAuth: true
+      }
     },
     {
         path: '/register',
@@ -43,37 +48,57 @@ const routes = [
       },
     {
         path: '/artiste',
-        component: Artiste
+        component: Artiste,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
          path: '/artiste/:id',
-         component: ArtistView
+         component: ArtistView,
+         meta: {
+            requiresAuth: true
+          }
     },
     {
         path: '/gener',
         name: 'gener',
-        component: Gener
+        component: Gener,
+        meta: {
+            requiresAuth: true
+          }
    },
     {
         path: '/profile',
         name: 'profile',
-        component: Profile
+        component: Profile,
+        meta: {
+            requiresAuth: true
+          }
     },
-
-
-
-
-
 ]
-
-
-
-
-
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
+router.beforeEach((to, from, next) => {
+    if (to.name === from.name) {
+      return next();
+    }
+    next();
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (localStorage.getItem("user") == null) {
+        next({
+          path: "/"
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
 
 export default router;

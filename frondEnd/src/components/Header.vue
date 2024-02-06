@@ -10,7 +10,11 @@
           </span>
           <div class="dropdown-content">
             <router-link to="/profile">Profile</router-link>
-            <a @click="logout" href="#">Logout</a>
+            <li class="nav-item">
+              <a class="nav-link" @click.prevent="logOut">
+                <font-awesome-icon icon="sign-out-alt" /> LogOut
+              </a>
+              </li>
           </div>
         </div>
       </li>
@@ -41,6 +45,12 @@ export default {
       isDropdownOpen: false,
       
     };
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/');
+    }
   },
  /* computed: {
     currentUser() {

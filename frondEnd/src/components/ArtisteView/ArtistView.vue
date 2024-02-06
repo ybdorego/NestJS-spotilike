@@ -90,7 +90,7 @@
        */
       getArtist(id) {
         axios
-          .get(`http://127.0.0.1:8000/api/artiste/${id}`)
+          .get(`http://127.0.0.1:3000/artiste/${id}`)
           .then((response) => {
             this.artiste = response.data;
             console.log(this.artiste);

@@ -6,7 +6,7 @@ class AuthService {
   login(user) {
     console.log(user);
     return axios
-      .post(API_URL_SigIn + 'login', {
+      .get(API_URL_SigIn + 'login', {
         email: user.email,
         password: user.password
       })

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <form name="form" @submit.prevent="handleLogin" :validation-schema="schema">
+      <form name="form" @submit.prevent="handleRegister" :validation-schema="schema">
         <div class="imgcontainer">
           <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/8385659-spotify-social-media-icon-logo-abstract-symbol-illustration-gratuit-vectoriel.jpg" alt="Avatar" class="avatar" />
           
@@ -36,6 +36,8 @@
   <script>
   import { Form, Field, ErrorMessage } from "vee-validate";
   import * as yup from "yup";
+
+  import AuthService from "../service/auth.service"; // Importez le service AuthService
   
   export default {
     name: "Register",
@@ -59,45 +61,27 @@
       });
   
       return {
-        successful: false,
         loading: false,
         message: "",
         schema,
       };
     },
-    computed: {
-      loggedIn() {
-        return this.$store.state.auth.status.loggedIn;
-      },
-    },
-    mounted() {
-      if (this.loggedIn) {
-        this.$router.push("/profile");
-      }
-    },
     methods: {
-      handleRegister(user) {
-        this.message = "";
-        this.successful = false;
+      handleRegister() {
         this.loading = true;
+        const userData = { email: this.email, password: this.password };
   
-        this.$store.dispatch("auth/register", user).then(
-          (data) => {
-            this.message = data.message;
-            this.successful = true;
+        AuthService.signUp(userData)
+          .then(response => {
+            this.message = response.data.message;
             this.loading = false;
-          },
-          (error) => {
-            this.message =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-            this.successful = false;
+            this.$router.push("/"); // Rediriger vers la page de connexion après l'inscription
+          })
+          console.log(userData)
+          .catch(error => {
             this.loading = false;
-          }
-        );
+            this.message = error.response.data.message || "Une erreur s'est produite lors de l'inscription.";
+          });
       },
     },
   };

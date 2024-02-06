@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         getArtist() {
-            let url = "http://127.0.0.1:8000/api/artiste";
+            let url = "http://127.0.0.1:3000/artiste";
             axios.get(url).then((response) => {
                 this.artistes = response.data['hydra:member'];
                 console.log(this.artistes);
