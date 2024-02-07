@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   height: 670px;
-  gap: 10px;
+  gap: 20px;
 }
 
 input[type="text"],
@@ -23,7 +23,7 @@ input::placeholder {
 
 hr {
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid rgb(230, 230, 230);
 }
 
 #remember_me {
@@ -44,11 +44,11 @@ hr {
 }
 
 .signup_btn {
-  background-color: white;
-  color: gray;
+  background-color: #1ed760;
+  color: rgb(0, 0, 0);
   padding: 14px;
   border-radius: 28px;
-  border: 2px solid gray;
+  border: 2px solid rgb(228, 28, 28);
   font-weight: bold;
 }
 
