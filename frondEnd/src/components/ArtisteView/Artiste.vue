@@ -1,34 +1,27 @@
-/**
- * Component: Artiste
- * Description: This component displays a list of artists with their avatars, names, and biographies.
- * Props:
- *   - artistes: An array of artist objects containing avatar, name, and biography.
- * Methods:
- *   - getArtist: Fetches the list of artists from the API.
- * Computed Properties:
- *   - rows: Returns the number of artists in the list.
- */
 <template>
     <Header />
     <h1>Liste Artiste</h1>
     <div class="art">
-        <div class="row" v-for="artiste in artistes">
+        <div class="row" v-for="artiste in artistes" :key="artiste._id">
             <div class="card">
+                <p>{{ artiste.biographie }}</p>
+              
                 <div class="wrapper">
                     <img :src="artiste.avatar" alt="Avatar" class="avatar">
+                    
                 </div>
-                <h1>{{ artiste.nom }}</h1>
-                <h1>{{ artiste.biographie }}</h1>
-                <router-link :to="'/artiste/' + artiste._id">
-            Détail
-          </router-link>
+                <router-link :to="'/artiste/' + artiste._id" class="detail-link">
+                        Détail
+                    </router-link>
+                <h2>{{ artiste.nom }}</h2>
+                
+
+               
             </div>
+           
         </div>
-
-
     </div>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -72,11 +65,17 @@ body {
     align-items: center;
     background: #191c29;
 }
-
-h1 {
-    margin-left: 240px;
-    color: aliceblue;
+h1{
+    margin-left: 260px;
+    
 }
+
+.wrapper h2 {
+    margin-left: 20px;
+    color: aliceblue;
+    margin-top: 20%;
+}
+
 
 .row {
     display: -webkit-box;
@@ -129,7 +128,7 @@ h1 {
 
 .cover-image {
     width: 100%;
-    height: 100%;
+    height: 10%;
     object-fit: cover;
 }
 
@@ -137,8 +136,15 @@ h1 {
     transition: all 0.5s;
     position: absolute;
     width: 100%;
+    height: 100%;
     z-index: -1;
 
+}
+.wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .card:hover .wrapper {
@@ -206,5 +212,21 @@ h1 {
 .card:hover .character {
     opacity: 1;
     transform: translate3d(0%, -30%, 100px);
+}
+.detail-link {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.detail-link:hover {
+    background-color: rgba(255, 255, 255, 1);
 }
 </style>
