@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -8,6 +9,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  toastr = inject(ToastrService)
 
   public usernameFormControl = new FormControl(null, [
     Validators.required,
@@ -24,6 +27,7 @@ export class LoginComponent {
 
 
   submit() {
+    this.toastr.success('Login successful');
     console.log(this.userForm.value);
   }
 
