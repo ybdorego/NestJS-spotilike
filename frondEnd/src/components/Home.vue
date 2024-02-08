@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
 body {
-  background-color: #333;
+  background-color:white;
   color: wheat;
 }
 

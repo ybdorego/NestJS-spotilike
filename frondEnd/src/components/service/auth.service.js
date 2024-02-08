@@ -4,17 +4,15 @@ import axios from 'axios';
 
 class AuthService {
   login(user) {
-    console.log(user);
     return axios
-      .post(' http://localhost:3000/auth/api/login', {
+      .post('http://localhost:3000/auth/api/login', {
         email: user.email,
         password: user.password
       })
       .then(response => {
         if (response.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem('accessToken', response.data.accessToken);
         }
-
         return response.data;
       });
   }

@@ -8,6 +8,7 @@ import SginUp from '@/components/UserView/SginUp.vue';
 import Albums from "@/components/AlbumView/Albums.vue"; 
 import AlbumsView from "@/components/AlbumView/AlbumsView.vue"; 
 import Artiste from "@/components/ArtisteView/Artiste.vue";
+
 import ArtistView from "@/components/ArtisteView/ArtistView.vue";
 import Gener from '@/components/GenresView/Gener.vue';
 

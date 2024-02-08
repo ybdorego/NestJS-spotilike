@@ -15,59 +15,54 @@
         <div class="row" v-for="artiste in artistes">
             <div class="card">
                 <div class="wrapper">
-                    {{ artiste.avatar }}
+                    <img :src="artiste.avatar" alt="Avatar" class="avatar">
                 </div>
                 <h1>{{ artiste.nom }}</h1>
                 <h1>{{ artiste.biographie }}</h1>
-                <router-link tag="li" to="/artiste/:id">
-                    <a>Détail</a>
-                </router-link>
+                <router-link :to="'/artiste/' + artiste._id">
+            Détail
+          </router-link>
             </div>
         </div>
+
+
     </div>
 </template>
 
 
 <script>
-
 import axios from "axios";
 import Header from '../Header.vue'
-import ArtistView from './ArtistView.vue'
+
 export default {
-    components: {
-        ArtistView,
-        Header,
+  components: {
+    Header,
+  },
+  data() {
+    return {
+      artistes: []
+    };
+  },
+  mounted() {
+    this.getArtist();
+  },
+  methods: {
+    async getArtist() {
+      try {
+        const response = await axios.get("http://localhost:3000/artiste");
+        this.artistes = response.data;
+      } catch (error) {
+        console.error("Error fetching artistes:", error);
+      }
     },
-    props: {
-        artistes: Array,
-
-    },
-    mounted() {
-        this.getArtist();
-    },
-    methods: {
-        getArtist() {
-            let url = "http://127.0.0.1:3000/artiste";
-            axios.get(url).then((response) => {
-                this.artistes = response.data['hydra:member'];
-                console.log(this.artistes);
-                console.log(artistes)
-            }).catch(error => {
-                console.log(error);
-            });
-            
-        },
-
-        computed: {
-            rows() {
-                return this.artistes.length
-            },
-        }
-    }
-
-}
+  },
+};
 </script>
 <style>
+body {
+    background-color: #191c29;
+    color: wheat;
+}
 .art {
     margin-left: 340px;
     width: 60%;

@@ -7,41 +7,37 @@
       <div class="quote">
         <img :src="album.pochette" alt="Album Cover" height="80" width="80" />
       </div>
-      <router-link tag="li" :to="'/albums/' + album.id"><a>Détail</a></router-link>
+  
+      <router-link tag="li" :to="'/albums/' + album._id"><a>Détail</a></router-link>
     </div>
   </div>
 </template>
 <script>
-import Header from "@/components/Header.vue";
 import axios from "axios";
+import Header from '../Header.vue'
+
 export default {
   components: {
-    Header, // N'oubliez pas d'enregistrer le composant dans la section 'components'
+    Header,
   },
-  props: {
-    albums: Array,
-
+  data() {
+    return {
+      albums: []
+    };
   },
   mounted() {
     this.getAlbums();
   },
   methods: {
-    getAlbums() {
-      let url = "http://127.0.0.1:3000/album";
-      axios.get(url).then((response) => {
-        this.albums = response.data['hydra:member'];
-        console.log(this.albums);
-      }).catch(error => {
-        console.log(error);
-      });
+    async getAlbums() {
+      try {
+        const response = await axios.get("http://localhost:3000/album");
+        this.albums = response.data;
+      } catch (error) {
+        console.error("Error fetching albums:", error);
+      }
     },
-
-    computed: {
-      rows() {
-        return this.albums.length
-      },
-    }
-  }
+  },
 }
 
 

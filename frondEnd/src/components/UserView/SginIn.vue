@@ -55,19 +55,43 @@ export default {
     handleLogin() {
       this.loading = true;
       AuthService.login({ email: this.email, password: this.password })
-        .then(() => {
+        .then(response => {
           // Redirection après une connexion réussie
-          this.$router.push("/home");
+          this.$router.push('/home');
+
+          // Récupérer le token d'accès de la réponse
+          const accessToken = response.accessToken;
+
+          // Stocker le token d'accès dans le stockage local
+          localStorage.setItem('accessToken', accessToken);
+
+          // Exemple de récupération de données à partir de votre API avec le token
+          this.getDataFromBackend(accessToken);
         })
         .catch(error => {
-          this.errorMessage = error.message || "Une erreur s'est produite lors de la connexion.";
+          this.errorMessage = error.message || 'Une erreur s\'est produite lors de la connexion.';
         })
         .finally(() => {
           this.loading = false;
         });
     },
-  },
-};
+    getDataFromBackend(token) {
+      // Exemple de requête pour récupérer des données à partir de votre API avec le token d'accès
+      axios.get('http://localhost:3000/auth/api/login', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        // Traitement des données récupérées...
+      })
+      .catch(error => {
+        // Gestion des erreurs...
+      });
+    }
+  }
+}
+
 </script>
 <style>
 .titre{

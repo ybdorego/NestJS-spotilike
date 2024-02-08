@@ -11,7 +11,7 @@ app.use(router);
 app.use(store);
 
 // Correct usage for VeeValidate in Vue 3 with Vite
-
+import "bootstrap/dist/css/bootstrap.min.css"
 app.use(VeeValidate);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');
