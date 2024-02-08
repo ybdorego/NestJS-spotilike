@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="userForm" (ngSubmit)="submit()">
+  <form [formGroup]="userForm" (ngSubmit)="userForm.valid && submit()">
     <div class="login__container">
       <img src="../../assets/spotify_green.png" width="300" />
       <hr />
@@ -9,6 +9,8 @@
           [formControl]="usernameFormControl"
           type="text"
           placeholder="Email "
+          required
+          [ngClass]="{ 'invalid-input': usernameFormControl.invalid && usernameFormControl.touched }"
         />
       </div>
       <div>
@@ -17,6 +19,8 @@
           [formControl]="passwordFormControl"
           type="password"
           placeholder="Password"
+          required
+          [ngClass]="{ 'invalid-input': passwordFormControl.invalid && passwordFormControl.touched }"
         />
         <br />
         <label class="mt-3"
@@ -39,7 +43,7 @@
             <span><strong>Remember me</strong></span>
           </label>
         </span>
-        <button class="login__btn">LOG IN</button>
+        <button class="login__btn" (click)="showToast()">LOG IN</button>
       </div>
       <hr [style.width]="'30%'" />
       <h5><strong>Don't have an account ?</strong></h5>
@@ -49,3 +53,10 @@
     </div>
   </form>
 </div>
+
+<style>
+  .invalid-input {
+    border-color: red;
+  }
+</style>
+
