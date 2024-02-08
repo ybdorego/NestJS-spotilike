@@ -1,0 +1,33 @@
+.navbar{
+  width: calc(100% - 5rem);
+  display: flex;
+  background: rgb(13, 12, 12);
+  margin-left: 5rem;
+  padding: 20px;
+  height: 74px;
+  top: 0;
+  transition: all 0.5s ease;
+  box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+}
+
+nav ul.navbar-nav{
+  display: flex;
+  margin-left: auto;
+}
+
+nav li.right {
+  margin-left: auto;
+}
+
+.top-trimmed {
+  width: calc(100% - 16.5625rem);
+  margin-left: 16.5625rem;
+}
+.top-md-screen {
+  width: calc(100% - 5rem);
+  margin-left: 5rem;
+}
+img {
+  height: 2.5rem;
+}
+

@@ -1,31 +1,26 @@
-<div class="spotify__home-container row">
-  <div class="spotify__home-container_side-bar col-2">
-    <div class="spotify__home-container_side-bar-item">
-      <img
+<div class="sidenav" [ngClass]="!collapsed ? 'sidenav-collapsed': ''">
+  <div class="titre">
+   <div class="home-container">
+    <img
         width="150"
         class="m-3 text-left"
         src="assets/spotify_light.png"
         alt="spotify light logo"
       />
     </div>
-
-
-    <ul class="sidenav-nav">
-      <li class="sidenav-nav-item" *ngFor="let data of navData">
-        <a class="sidenav-nav-link" [routerLink]="[data.routeLink]"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}">
-            <i class="sidenav-link-icon" [class]="data.icon"></i>
-
-            <span class="sidenav-link-text">
-                {{data.label}}
-            </span>
-        </a>
-    </li>
-  </ul>
-
-  
-
   </div>
-</div>
 
+  <ul class="sidenav-nav">
+      <li class="sidenav-nav-item" *ngFor="let data of navData">
+          <a class="sidenav-nav-link" [routerLink]="[data.routeLink]"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">
+              <i class="sidenav-link-icon" [class]="data.icon"></i>
+
+              <span class="sidenav-link-text" >
+                  {{data.label}}
+              </span>
+          </a>
+      </li>
+  </ul>
+</div>

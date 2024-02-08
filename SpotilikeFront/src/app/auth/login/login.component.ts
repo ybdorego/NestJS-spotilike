@@ -13,9 +13,13 @@ export class LoginComponent {
     Validators.required,
     Validators.email,
   ]);
-  public passwordFormControl = new FormControl(null, [Validators.minLength(4)]);
 
-  public userForm!: FormGroup;
+  public passwordFormControl = new FormControl(null, [Validators.minLength(6)]);
+
+  public userForm: FormGroup = new FormGroup({
+    email: this.usernameFormControl,
+    password: this.passwordFormControl
+  });
 
 
 

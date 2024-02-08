@@ -1,28 +1,30 @@
 
 export const navbarData = [
   {
-    routeLink: 'home',
+    routeLink: 'index',
     icon: 'fa-home',
     label: 'Home',
   },
 
   {
-    routeLink: 'index',
+    routeLink: 'artist',
     icon : 'fa-home',
-    label: 'Index',
+    label: 'artist',
 
   },
   {
-    routeLink: 'index',
+    routeLink: 'album',
     icon : 'fa-home',
-    label: 'Index',
+    label: 'album',
 
   },
   {
-    routeLink: 'index',
+    routeLink: 'morceau',
     icon : 'fa-home',
-    label: 'Index',
-  }
+    label: 'morceau',
+
+  },
+
 
 
 ]
