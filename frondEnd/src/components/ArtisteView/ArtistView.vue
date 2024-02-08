@@ -43,21 +43,19 @@
         </tbody>
       </table>
       <div v-if="artiste.album && artiste.album.length > 0" class="row">
-        <div class="col-lg-4" v-for="albumId in artiste.album" :key="album._id">
+        <div class="col-lg-4" v-for="albumId in artiste.album" :key="albumId">
           <!-- Récupération de l'album correspondant à l'ID -->
-          <div v-if="album[album._id]">
+          <div v-if="album[albumId]">
             <img
-              v-if="album[album._id].pochette"
+              v-if="album[albumId].pochette"
               class="bd-placeholder-img rounded-circle"
               width="140"
               height="140"
-              :src="album[album._id].pochette"
+              :src="album[albumId].pochette"
               alt="Album Cover"
             />
-            <h2>{{ album[album._id].titre }}</h2>
-            <h4>{{ album[album._id].dateSortie }}</h4>
-
-            <!-- Insérez ici d'autres détails de l'album si nécessaire -->
+            <h2>{{ album[albumId].titre }}</h2>
+            <h4>{{ album[albumId].dateSortie }}</h4>
 
             <router-link class="btn btn-primary" to="/artiste">Retour</router-link>
           </div>
@@ -85,6 +83,10 @@ export default {
   data() {
     return {
       artiste: {},
+      albumId:null,
+      albumDateSortie :null,
+      albumPochette:null,
+      albumTitre:null,
     };
   },
   mounted() {
@@ -106,6 +108,21 @@ export default {
         .catch((error) => {
           console.error("Erreur lors de la récupération des détails de l'artiste:", error.message);
         });
+    },
+    getAlbumAll() {
+      if (this.albumId) {
+        axios
+        .get(`http://localhost:3000/album/${this.albumId}`)
+          .then((response) => {
+            this.album = response.data;
+            this.albumTitre = response.data.titre; 
+            this.albumPochette = response.data.pochette; 
+            this.albumDateSortie = response.data.dateSortie;
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la récupération du nom de l'artiste:", error.message);
+          });
+      }
     },
   },
 };

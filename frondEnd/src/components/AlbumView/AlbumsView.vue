@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       album: {},
-      artisteId: null, 
+      id: null, 
       artisteNom: null,
     };
   },
@@ -85,11 +85,13 @@ export default {
           console.error("Erreur lors de la récupération des détails de l'album:", error.message);
         });
     },
-    getArtisteNom() {
-      if (this.artisteId) {
+    
+   getArtisteNom() {
+      if (this.id) {
         axios
-          .get(`http://localhost:3000/artiste/${this.artisteId}`)
+          .get(`http://localhost:3000/artiste/${this.id}`)
           .then((response) => {
+            this.artistes = response.data;
             this.artisteNom = response.data.nom; 
           })
           .catch((error) => {
