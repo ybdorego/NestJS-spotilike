@@ -24,7 +24,7 @@ export class AuthController {
         return await this.authService.signUp(signUpDto)
     }
 
-    @Get('/api/login')
+    @Post('/api/login')
     /**
      * Logs in a user.
      * @param loginDto - The login data.

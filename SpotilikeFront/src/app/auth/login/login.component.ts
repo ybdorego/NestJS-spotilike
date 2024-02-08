@@ -28,29 +28,37 @@ export class LoginComponent {
   });
 
 
-  // submit() {
-  //   if (this.userForm.valid) {
-  //     // Simulez une requête de connexion à l'API
-  //     this.authService.login(this.userForm.value).subscribe(
-  //       response => {
-  //         // Si la connexion est réussie, affichez un message de succès
-  //         this.toastr.success('Login successful');
-  //       },
-  //       error => {
-  //         // Si la connexion échoue, affichez un message d'erreur
-  //         this.toastr.error('Login failed');
-  //       }
-  //     );
-  //   } else {
-  //     // Si le formulaire n'est pas valide, affichez un message d'erreur
-  //     this.toastr.error('Please fill in all required fields');
-  //   }
-  // }
-
   submit() {
-    this.toastr.success('Login successful');
-    console.log(this.userForm.value);
+    if (this.userForm.valid) {
+      // Simulez une requête de connexion à l'API
+      this.authService.login(this.userForm.value).subscribe(
+        (response: any) => { // Explicitly type the 'response' parameter as any
+          // Si la connexion est réussie, affichez un message de succès
+          this.toastr.success('Login successful');
+          console.log(response); // Log the response data from the API
+
+          // Supposons que le token est dans la propriété 'token' de la réponse
+          const token = response.token;
+          console.log(token); // Log the token
+          // Vous pouvez maintenant stocker le token où vous le souhaitez (par exemple, dans le localStorage)
+          localStorage.setItem('authToken', token);
+        },
+        // error => {
+        //   // Si la connexion échoue, affichez un message d'erreur
+        //   this.toastr.error('Login failed');
+        //   console.error(error); // Log the error data from the API
+        // }
+      );
+    } else {
+      // Si le formulaire n'est pas valide, affichez un message d'erreur
+      this.toastr.error('Please fill in all required fields');
+    }
   }
+
+  // submit() {
+  //   this.toastr.success('Login successful');
+  //   console.log(this.userForm.value);
+  // }
 
   showToast() {
     if (!this.userForm.valid) {
