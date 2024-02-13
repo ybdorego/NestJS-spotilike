@@ -1,1 +1,30 @@
-<p>albums works!</p>
+<h1 class="text-center">View Users</h1>
+  <!-- <div class="container"> -->
+      <!--Add User Button-->
+      <div class="my-3">
+          <a href="/add"><button type="button" class="btn btn-primary">Add User</button></a>
+      </div>
+      <table class="table border" >
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Prenom</th>
+              <th scope="col">telephone</th>
+              <th scope="col">Email</th>
+              <th scope="col">Présentation</th>
+              <!-- <th scope="col">Address</th>
+              <th scope="col">Options</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let utilisateur of utilisateurs">
+              <td>{{utilisateur.id_utilisateur}}</td>
+              <td>{{utilisateur.nom}}</td>
+              <td>{{utilisateur.prenom}}</td>
+              <td>{{utilisateur.telephone}}</td>
+              <td>{{utilisateur.email}}</td>
+              <td>{{utilisateur.presentation}}</td>
+            </tr>
+          </tbody>
+        </table>

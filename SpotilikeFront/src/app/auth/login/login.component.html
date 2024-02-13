@@ -6,11 +6,11 @@
       <div>
         <label><strong>Email </strong></label> <br />
         <input
-          [formControl]="usernameFormControl"
+          [formControl]="MailFormControl"
           type="text"
           placeholder="Email "
           required
-          [ngClass]="{ 'invalid-input': usernameFormControl.invalid && usernameFormControl.touched }"
+          [ngClass]="{ 'invalid-input': MailFormControl.invalid && MailFormControl.touched }"
         />
       </div>
       <div>
